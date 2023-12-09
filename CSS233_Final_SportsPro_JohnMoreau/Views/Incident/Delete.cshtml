@@ -1,0 +1,22 @@
+﻿@*
+* John Moreau
+* CSS233
+* 10/28/2023
+*@
+@model Incident
+@{
+    ViewData["Title"] = "Delete Incident";
+}
+<h2>@ViewData["Title"]</h2>
+<div class="mb-3 mt-3">
+    Do you really want to delete <strong>@Model?.Title</strong> opened on <strong> @Model?.DateOpened</strong>?
+</div>
+
+<form asp-controller="Incident" asp-action="Delete" method="post">
+
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-primary">Yes</button>
+    <a asp-controller="Incident" asp-action="List" asp-route-id="@Model?.Id"
+       class="btn btn-primary">No</a>
+</form>

@@ -1,0 +1,22 @@
+﻿@*
+* John Moreau
+* CSS233
+* 10/28/2023
+*@
+@model Product
+@{
+    ViewData["Title"] = "Delete Product";
+}
+<h2>@ViewData["Title"]</h2>
+<div class="mb-3 mt-3">
+    Do you really want to delete <strong>@Model?.Name</strong>?
+</div>
+
+<form asp-controller="Product" asp-action="Delete" method="post">
+
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-primary">Yes</button>
+    <a asp-controller="Product" asp-action="List" asp-route-id="@Model?.Id"
+       class="btn btn-primary">No</a>
+</form>

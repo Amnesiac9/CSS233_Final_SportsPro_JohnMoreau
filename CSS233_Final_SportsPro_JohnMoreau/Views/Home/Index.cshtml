@@ -1,0 +1,41 @@
+﻿@*
+* John Moreau
+* CSS233
+* 10/28/2023
+*@
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="title">
+    <h1>SportsPro Technical Support</h1>
+    <p>Sports management software for the sports enthusiast</p>
+</div>
+<div class="main">
+    <h1>Admin</h1>
+    <ul class="list-group">
+        <li class="list-group-item interactive-list-item">
+            <a class="text-decoration-none text-black" asp-area="" asp-controller="Product" asp-action="List">Manage Products</a>
+        </li>
+        <li class="list-group-item interactive-list-item">
+            <a class="text-decoration-none text-black" asp-controller="Technician" asp-action="List">Manage Technicians</a>
+        </li>
+        <li class="list-group-item interactive-list-item">
+            <a class="text-decoration-none text-black" asp-controller="Customer" asp-action="List">Manage Customers</a>
+        </li>
+        <li class="list-group-item interactive-list-item">
+            <a class="text-decoration-none text-black" asp-controller="Incident" asp-action="List">Manage Incidents</a>
+        </li>
+        <li class="list-group-item interactive-list-item">
+            <a class="text-decoration-none text-black" asp-controller="Home" asp-action="Registrations">Manage Registrations</a>
+        </li>
+    </ul>
+    <h1>Technicians</h1>
+    <ul class="list-group">
+        <li class="list-group-item interactive-list-item">
+            <a class="text-decoration-none text-black" asp-controller="Incident" asp-action="Update">Update Incident</a>
+        </li>
+    </ul>
+</div>

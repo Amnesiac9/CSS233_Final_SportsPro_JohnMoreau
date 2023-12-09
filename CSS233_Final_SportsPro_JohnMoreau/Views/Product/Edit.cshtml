@@ -1,0 +1,45 @@
+﻿
+@*
+* John Moreau
+* CSS233
+* 10/28/2023
+*@
+@model Product
+@{
+    string title = ViewBag.Action + " Product";
+    ViewData["Title"] = title;
+}
+<h2>@title</h2>
+<form asp-controller="Product" asp-action="Edit" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Code" class="form-label">Code</label>
+        <input asp-for="Code" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Name</label>
+        <input asp-for="Name" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label">Yearly Price</label>
+        <input asp-for="Price" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ReleaseDate" class="form-label">Release Date</label>
+        <input asp-for="ReleaseDate" class="form-control" step="any" asp-format="{0:yyyy-MM-ddTHH:mm:ss}"> @*asp-format="{0:yyyy-MM-ddTHH:mm:ss}" SOURCE: https: //www.mikesdotnetting.com/article/352/working-with-dates-and-times-in-razor-pages-forms#:~:text =Alternatively%2C%20you%20can%20use%20the%20asp-format%20attribute%20on,itself%3A%20DateTime%3A%20%3Cinput%20class%3D%22form-control%22%20asp-for%3D%22DateTime%22%20asp-format%3D%22%20%7B0%3Ayyyy-MM-ddTHH%3Amm%7D%22%20%2F%3E *@
+    </div>
+
+    <input type="hidden" asp-for="Id" />
+
+    <input type="hidden" asp-for="DateAdded" />
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-controller="Product" asp-action="List" asp-route-id="@Model?.Id"
+           class="btn btn-primary">Cancel</a>
+    </div>
+</form>

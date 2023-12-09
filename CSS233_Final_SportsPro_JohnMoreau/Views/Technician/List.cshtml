@@ -1,0 +1,112 @@
+﻿@*
+* John Moreau
+* CSS233
+* 10/28/2023
+*@
+@model List<Technician>
+@{
+    // For getting a new sort order to pass to my backend controller so that the URL query matches the actual sort order >:|
+    string GetNewSortOrder(string sortOrder)
+    {
+        switch (sortOrder)
+        {
+            case "asc":
+                return "desc";
+            case "desc":
+                return "";
+            default:
+                return "asc";
+        }
+
+    }
+
+    // For getting the sort by value to pass to my backend controller so that the URL query will go away when I'm not sorting by anything
+    string GetSortBy(string sortBy, string sortOrder)
+    {
+        if (sortOrder == "") return "";
+
+        return sortBy;
+
+    }
+}
+@{
+    ViewData["Title"] = "Technician Manager";
+}
+<h1>@ViewData["Title"]</h1>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Name
+                <a asp-controller="Technician" asp-action="List" asp-route-sortBy="@(GetSortBy("Name", GetNewSortOrder(ViewData["NameSortOrder"]?.ToString() ?? "")))" asp-route-sortOrder="@(GetNewSortOrder(ViewData["NameSortOrder"]?.ToString() ?? ""))" class="sort-button">
+                    @switch (ViewData["NameSortOrder"]?.ToString() ?? "")
+                    {
+                        case "asc":
+                            <span class="sort-icon fas fa-arrow-up" style="margin-left: 5px;"></span>
+                            break;
+                        case "desc":
+                            <span class="sort-icon fas fa-arrow-down" style="margin-left: 5px;"></span>
+                            break;
+                        default:
+                            <span class="sort-icon fas fa-sort" style="margin-left: 5px;"></span>
+                            break;
+                    }
+                </a>
+            </th>
+            <th>
+                Email
+                <a asp-controller="Technician" asp-action="List" asp-route-sortBy="@(GetSortBy("Email", GetNewSortOrder(ViewData["EmailSortOrder"]?.ToString() ?? "")))" asp-route-sortOrder="@(GetNewSortOrder(ViewData["EmailSortOrder"]?.ToString() ?? ""))" class="sort-button">
+                    @switch (ViewData["EmailSortOrder"]?.ToString() ?? "")
+                    {
+                        case "asc":
+                            <span class="sort-icon fas fa-arrow-up" style="margin-left: 5px;"></span>
+                            break;
+                        case "desc":
+                            <span class="sort-icon fas fa-arrow-down" style="margin-left: 5px;"></span>
+                            break;
+                        default:
+                            <span class="sort-icon fas fa-sort" style="margin-left: 5px;"></span>
+                            break;
+                    }
+                </a>
+            </th>
+            <th>
+                Phone
+                <a asp-controller="Technician" asp-action="List" asp-route-sortBy="@(GetSortBy("Phone", GetNewSortOrder(ViewData["PhoneSortOrder"]?.ToString() ?? "")))" asp-route-sortOrder="@(GetNewSortOrder(ViewData["PhoneSortOrder"]?.ToString() ?? ""))" class="sort-button">
+                    @switch (ViewData["PhoneSortOrder"]?.ToString() ?? "")
+                    {
+                        case "asc":
+                            <span class="sort-icon fas fa-arrow-up" style="margin-left: 5px;"></span>
+                            break;
+                        case "desc":
+                            <span class="sort-icon fas fa-arrow-down" style="margin-left: 5px;"></span>
+                            break;
+                        default:
+                            <span class="sort-icon fas fa-sort" style="margin-left: 5px;"></span>
+                            break;
+                    }
+                </a>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var technician in Model)
+        {
+            if (technician.Id == -1) continue; //Skip listing "Not Assigned"
+            <tr>
+                <td>@technician.Name</td>
+                <td>@technician.Email</td>
+                <td>@technician.Phone</td>
+                <td><a class="btn btn-primary" asp-controller="Technician" asp-action="Edit" asp-route-id="@technician?.Id" asp-route-slug="@technician?.Slug">Edit</a></td>
+                <td><a class="btn btn-primary" asp-controller="Technician" asp-action="Delete" asp-route-id="@technician?.Id" asp-route-slug="@technician?.Slug">Delete</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="mb-4">
+    <a class="btn btn-primary" asp-controller="Technician" asp-action="Add">Add Technician</a>
+</div>

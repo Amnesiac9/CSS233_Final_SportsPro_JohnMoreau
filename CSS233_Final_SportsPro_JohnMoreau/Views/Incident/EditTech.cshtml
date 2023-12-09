@@ -1,0 +1,114 @@
+﻿
+@*
+* John Moreau
+* CSS233
+* 10/28/2023
+*@
+@model Incident
+@{
+    string title = ViewBag.Action + " Incident";
+    ViewData["Title"] = title;
+}
+<h2>@title</h2>
+<form asp-controller="Incident" asp-action="EditTech" method="post" asp-route-techid="@Model.TechnicianId"> @*Use asp-route-techid here instead of id to not override hidden Id field for the Incident.Id*@
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="row mb-3">
+        <div class="col-2 mt-1">
+            <label asp-for="CustomerId" class="form-label">Customer</label>
+        </div>
+        <div class="col-10">
+            <select asp-for="CustomerId" asp-items="@(new SelectList(ViewBag.Customers, "Id", "Name"))" class="form-select">
+                <option value=0>Add a customer...</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-2 mt-1">
+            <label asp-for="ProductId" class="form-label">Product</label>
+        </div>
+        <div class="col-10">
+            <select asp-for="ProductId" asp-items="@(new SelectList(ViewBag.Products, "Id", "Name"))" class="form-select">
+                <option value=0>Add a Product...</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-2 mt-1">
+            <label asp-for="Title" class="form-label">Title</label>
+        </div>
+        <div class="col-10">
+            <input asp-for="Title" class="form-control">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-2 mt-1">
+            <label asp-for="Description" class="form-label">Description</label>
+        </div>
+        <div class="col-10">
+            <textarea asp-for="Description" class="form-control" type="text"></textarea>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-2 mt-1">
+            <label asp-for="TechnicianId" class="form-label">Technician</label>
+        </div>
+        <div class="col-10">
+            <select asp-for="TechnicianId" asp-items="@(new SelectList(ViewBag.Technicians, "Id", "Name"))" class="form-select">
+                <option value=0>Choose a technician...</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-2 mt-1">
+            <label asp-for="DateOpened" class="form-label">Date Opened</label>
+        </div>
+        <div class="col-10">
+            <input asp-for="DateOpened" class="form-control" value="@(Model.DateOpened == "" ? DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt") : Model.DateOpened)" disabled>
+        </div>
+    </div>
+
+    @*Show the date picker for Date Closed only when editing. *@
+    @if (ViewBag.Action == "Edit")
+    {
+        <div class="row mb-3">
+            <div class="col-2 mt-1">
+                <label asp-for="DateClosed" class="form-label">Date Closed</label>
+            </div>
+            <div class="col-10">
+                <input asp-for="DateClosed" class="form-control" step="any" type="datetime-local">
+            </div>
+        </div>
+    } 
+    else
+    {
+        <div class="row mb-3">
+            <div class="col-2 mt-1">
+                <label asp-for="DateClosed" class="form-label">Date Closed</label>
+            </div>
+            <div class="col-10">
+                <input asp-for="DateClosed" class="form-control" type="text" disabled>
+            </div>
+        </div>
+    }
+
+
+
+
+    <input type="hidden" asp-for="DateOpened" /> @*To allow date opened to send in the POST request when updating.*@
+
+    <input type="hidden" asp-for="Id" />
+
+    
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-controller="Incident" asp-action="Update" method="post" asp-route-id="@Model.TechnicianId"
+           class="btn btn-primary">Cancel</a>
+    </div>
+
+</form>

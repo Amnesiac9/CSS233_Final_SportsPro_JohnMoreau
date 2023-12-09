@@ -1,0 +1,35 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.navbar-right {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+}
+
+/* When no longer hovering, transform back */
+.interactive-list-item {
+    transition: transform 0.3s;
+}
+
+/* Hovering grow transition */
+.interactive-list-item:hover {
+    transform: scale(1.02); 
+    transition: transform 0.3s;
+}
