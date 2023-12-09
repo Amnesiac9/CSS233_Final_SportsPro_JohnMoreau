@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using john_moreau_MidTerm.Models;
+using CSS233_Final_SportsPro_JohnMoreau.Models;
 
 #nullable disable
 

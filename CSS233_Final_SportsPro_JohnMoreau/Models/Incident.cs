@@ -44,7 +44,8 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Models
         public Technician? Technician { get; set; } // Navigation property
 
 
-        public string? DateOpened { get; set; } = string.Empty;
+        [Required(ErrorMessage = "Error generating Date Opened. Please contact website support.")]
+        public string DateOpened { get; set; } = string.Empty;
 
         public DateTime? DateClosed { get; set; }
 

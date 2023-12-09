@@ -10,7 +10,7 @@ using System.Diagnostics;
 *
 */
 
-namespace john_moreau_MidTerm.Controllers
+namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
 {
     public class HomeController : Controller
     {
@@ -23,12 +23,14 @@ namespace john_moreau_MidTerm.Controllers
         [Route("/")]
         public IActionResult Index()
         {
+            ViewBag.Title = "Home";
             return View();
         }
 
         [Route("About")]
         public IActionResult About()
         {
+            ViewBag.Title = "About Us";
             return View();
         }
 

@@ -1,5 +1,4 @@
-﻿//using john_moreau_MidTerm.Migrations;
-using CSS233_Final_SportsPro_JohnMoreau.Models;
+﻿using CSS233_Final_SportsPro_JohnMoreau.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -8,12 +7,12 @@ using System.Globalization;
 /*
 * John Moreau
 * CSS233
-* 10/28/2023
+* 12/9/2023
 *
 *
 */
 
-namespace john_moreau_MidTerm.Controllers
+namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
 {
     public class TechnicianController : Controller
     {

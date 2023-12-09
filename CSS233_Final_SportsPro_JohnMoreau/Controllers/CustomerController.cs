@@ -13,7 +13,7 @@ using System.Globalization;
 *
 */
 
-namespace john_moreau_MidTerm.Controllers
+namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
 {
     public class CustomerController : Controller
     {

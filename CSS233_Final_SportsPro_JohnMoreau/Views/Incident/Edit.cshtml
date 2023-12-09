@@ -2,16 +2,19 @@
 @*
 * John Moreau
 * CSS233
-* 10/28/2023
+* 12/9/2023
 *@
 @model Incident
 @{
+    string editDisabledCheck = ViewBag.Action == "Edit" ? "disabled" : "";
+    //string successHiddenCheck = TempData.Keys.Contains("SuccessMessage") ? "" : "hidden";
     string title = ViewBag.Action + " Incident";
     ViewData["Title"] = title;
+
 }
 <h2>@title</h2>
 <form asp-controller="Incident" asp-action="Edit" method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
+    @*<div asp-validation-summary="All" class="text-danger"></div>*@
 
     <div class="row mb-3">
         <div class="col-2 mt-1">
@@ -21,6 +24,7 @@
             <select asp-for="CustomerId" asp-items="@(new SelectList(ViewBag.Customers, "Id", "Name"))" class="form-select">
                 <option value=0>Add a customer...</option>
             </select>
+            <div class="text-danger">@Html.ValidationMessage("CustomerId")</div>
         </div>
     </div>
 
@@ -32,6 +36,7 @@
             <select asp-for="ProductId" asp-items="@(new SelectList(ViewBag.Products, "Id", "Name"))" class="form-select">
                 <option value=0>Add a Product...</option>
             </select>
+            <div class="text-danger">@Html.ValidationMessage("ProductId")</div>
         </div>
     </div>
 
@@ -41,6 +46,7 @@
         </div>
         <div class="col-10">
             <input asp-for="Title" class="form-control">
+            <div class="text-danger">@Html.ValidationMessage("Title")</div>
         </div>
     </div>
 
@@ -50,6 +56,7 @@
         </div>
         <div class="col-10">
             <textarea asp-for="Description" class="form-control" type="text"></textarea>
+            <div class="text-danger">@Html.ValidationMessage("Description")</div>
         </div>
     </div>
 
@@ -61,6 +68,7 @@
             <select asp-for="TechnicianId" asp-items="@(new SelectList(ViewBag.Technicians, "Id", "Name"))" class="form-select">
                 <option value=0>Choose a technician...</option>
             </select>
+            <div class="text-danger">@Html.ValidationMessage("TechnicianId")</div>
         </div>
     </div>
 
@@ -69,38 +77,20 @@
             <label asp-for="DateOpened" class="form-label">Date Opened</label>
         </div>
         <div class="col-10">
-            <input asp-for="DateOpened" class="form-control" value="@(Model.DateOpened == "" ? DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt") : Model.DateOpened)" disabled>
+            <input asp-for="DateOpened" class="form-control" value="@(Model.DateOpened == string.Empty ? DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt") : Model.DateOpened)" disabled> @* disabled doesn't submit any value...*@
+            <div class="text-danger">@Html.ValidationMessage("DateOpened")</div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-2 mt-1">
+            <label asp-for="DateClosed" class="form-label">Date Closed</label>
+        </div>
+        <div class="col-10">
+            <input asp-for="DateClosed" class="form-control" step="any" type="datetime-local" disabled="@(ViewBag.Action == "Add")">
         </div>
     </div>
 
-    @*Show the date picker for Date Closed only when editing. *@
-    @if (ViewBag.Action == "Edit")
-    {
-        <div class="row mb-3">
-            <div class="col-2 mt-1">
-                <label asp-for="DateClosed" class="form-label">Date Closed</label>
-            </div>
-            <div class="col-10">
-                <input asp-for="DateClosed" class="form-control" step="any" type="datetime-local">
-            </div>
-        </div>
-    } 
-    else
-    {
-        <div class="row mb-3">
-            <div class="col-2 mt-1">
-                <label asp-for="DateClosed" class="form-label">Date Closed</label>
-            </div>
-            <div class="col-10">
-                <input asp-for="DateClosed" class="form-control" type="text" disabled>
-            </div>
-        </div>
-    }
-
-
-
-
-    <input type="hidden" asp-for="DateOpened" /> @*To allow date opened to send in the POST request when updating.*@
+    <input type="hidden" asp-for="DateOpened" value="@(Model.DateOpened == string.Empty ? DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt") : Model.DateOpened)" /> @*To allow date opened to send in the POST request when updating.*@
 
     <input type="hidden" asp-for="Id" />
 

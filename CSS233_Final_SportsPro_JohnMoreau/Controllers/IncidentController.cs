@@ -13,7 +13,7 @@ using System.Globalization;
 
 
 
-namespace john_moreau_MidTerm.Controllers
+namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
 {
     public class IncidentController : Controller
     {
@@ -67,7 +67,7 @@ namespace john_moreau_MidTerm.Controllers
 
 
         [HttpGet]
-        public IActionResult Add()
+        public ActionResult Add()
         {
             ViewBag.Customers = Context.Customers.ToList();
             ViewBag.Products = Context.Products.ToList();
@@ -77,7 +77,7 @@ namespace john_moreau_MidTerm.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public ActionResult Edit(int id)
         {
             var incident = Context.Incidents.Find(id);
             ViewBag.Customers = Context.Customers.ToList();
@@ -94,12 +94,18 @@ namespace john_moreau_MidTerm.Controllers
             {
                 if (incident.Id == 0)
                 {
-                    incident.DateOpened = DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt");
+                    // Not sure why the DateOpened is not binding properly to the incident model
+                    // Solved, it was because field was disabled.
+                    // incident.DateOpened = DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt");
+
+                    // Add TempData for Messages
+                    TempData["SuccessMessage"] = incident.Title + " has been added.";
                     Context.Incidents.Add(incident);
 
                 }
                 else
                 {
+                    TempData["SuccessMessage"] = incident.Title + " has been updated.";
                     Context.Incidents.Update(incident);
                 }
 
@@ -126,20 +132,23 @@ namespace john_moreau_MidTerm.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             var incident = Context.Incidents.Find(id);
             return View(incident);
         }
 
         [HttpPost]
-        public IActionResult Delete(Incident incident)
+        public RedirectToActionResult Delete(Incident incident)
         {
             Context.Incidents.Remove(incident);
             Context.SaveChanges();
+            TempData["SuccessMessage"] = incident.Title + " has been deleted.";
             return RedirectToAction("List", "Incident");
         }
 
+
+        // Seperate Update for Technicians, need to refactor
         public IActionResult Update(string sortBy, string sortOrder, int Id)
         {
             if (Id == 0)
@@ -194,8 +203,9 @@ namespace john_moreau_MidTerm.Controllers
 
         }
 
+        // Seperate Update for Technicians, need to refactor
         [HttpPost]
-        public IActionResult Update(List<Incident> incidents, int Id)
+        public ActionResult Update(List<Incident> incidents, int Id)
         {
             var technician = Context.Technicians.Find(Id);
             incidents = Context.Incidents.Include(c => c.Customer).Include(c => c.Product).Where(i => i.TechnicianId == Id).OrderBy(m => m.Id).ToList();
@@ -203,8 +213,9 @@ namespace john_moreau_MidTerm.Controllers
             return View((incidents, technician));
         }
 
+        // Seperate Update for Technicians, need to refactor
         [HttpGet]
-        public IActionResult EditTech(int id)
+        public ActionResult EditTech(int id)
         {
             var incident = Context.Incidents.Find(id);
             ViewBag.Customers = Context.Customers.ToList();
@@ -214,6 +225,7 @@ namespace john_moreau_MidTerm.Controllers
             return View(incident);
         }
 
+        // Seperate Update for Technicians, need to refactor
         [HttpPost]
         public IActionResult EditTech(Incident incident, int TechId)
         {

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
 
-namespace john_moreau_MidTerm.Controllers
+namespace john_morCSS233_Final_SportsPro_JohnMoreaueau_MidTerm.Controllers
 {
     public class ProductController : Controller
     {
@@ -20,7 +20,7 @@ namespace john_moreau_MidTerm.Controllers
         public ProductController(SportsContext ctx) => Context = ctx;
 
         [Route("Products")]
-        public IActionResult List(string sortBy, string sortOrder)
+        public ViewResult List(string sortBy, string sortOrder)
         {
             var products = Context.Products;
 
@@ -66,23 +66,24 @@ namespace john_moreau_MidTerm.Controllers
 
 
         [HttpGet]
-        public IActionResult Add()
+        public ViewResult Add()
         {
             ViewBag.Action = "Add";
             return View("Edit", new Product());
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public ViewResult Edit(int id)
         {
-            var contact = Context.Products.Find(id);
             ViewBag.Action = "Edit";
+            var contact = Context.Products.Find(id);
             return View(contact);
         }
 
         [HttpPost]
         public IActionResult Edit(Product product)
         {
+            
             if (ModelState.IsValid)
             {
                 if (product.Id == 0)
@@ -102,13 +103,14 @@ namespace john_moreau_MidTerm.Controllers
             }
             else
             {
-                ViewBag.Action = (product.Id == 0) ? "Add" : "Edit";
                 if (product.Id == 0)
                 {
+                   ViewBag.Action = "Add";
                     return View("Edit", product);
                 }
                 else
                 {
+                    ViewBag.Action = "Edit";
                     return View(product);
                 }
 
@@ -116,14 +118,15 @@ namespace john_moreau_MidTerm.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(int id)
+        public ViewResult Delete(int id)
         {
+            ViewBag.Active = "Product";
             var contact = Context.Products.Find(id);
             return View(contact);
         }
 
         [HttpPost]
-        public IActionResult Delete(Product product)
+        public RedirectToActionResult Delete(Product product)
         {
             Context.Products.Remove(product);
             Context.SaveChanges();

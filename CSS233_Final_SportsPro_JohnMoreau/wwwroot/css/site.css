@@ -33,3 +33,8 @@ body {
     transform: scale(1.02); 
     transition: transform 0.3s;
 }
+
+/* Hidden takes up space on page but doesn't show, this way you don't get stuff moving out of the way when it displays. */
+.hidden {
+    opacity: 0;
+}

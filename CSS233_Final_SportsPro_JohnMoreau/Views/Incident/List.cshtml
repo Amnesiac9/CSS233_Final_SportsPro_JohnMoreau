@@ -1,7 +1,7 @@
 ﻿@*
 * John Moreau
 * CSS233
-* 10/28/2023
+* 12/9/2023
 *@
 @model List<Incident>
 @{
@@ -31,6 +31,12 @@
 }
 @{
     ViewData["Title"] = "Incident Manager";
+}
+@if (TempData.Keys.Contains("SuccessMessage"))
+{
+    <div class="mt-2 mb-2 alert alert-success text-center">
+        @TempData["SuccessMessage"]
+    </div>
 }
 <h1>@ViewData["Title"]</h1>
 <table class="table table-striped table-bordered">

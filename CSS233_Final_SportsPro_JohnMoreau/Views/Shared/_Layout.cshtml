@@ -3,7 +3,6 @@
 * CSS233
 * 12/9/23
 *@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,25 +25,25 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link @(ViewBag.Title.Contains("Home") ? "active" : "")" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Product" asp-action="List">Products</a>
+                            <a class="nav-link @(ViewBag.Title.Contains("Product") ? "active" : "")" asp-area="" asp-controller="Product" asp-action="List">Products</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Technician" asp-action="List">Technicians</a>
+                            <a class="nav-link @(ViewBag.Title.Contains("Technician") ? "active" : "")" asp-area="" asp-controller="Technician" asp-action="List">Technicians</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Customer" asp-action="List">Customers</a>
+                            <a class="nav-link @(ViewBag.Title.Contains("Customer") ? "active" : "")" asp-area="" asp-controller="Customer" asp-action="List">Customers</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Incident" asp-action="List">Incidents</a>
+                            <a class="nav-link @(ViewBag.Title.Contains("Incident") ? "active" : "")" asp-area="" asp-controller="Incident" asp-action="List">Incidents</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Registrations">Registrations</a>
+                            <a class="nav-link @(ViewBag.Title.Contains("Registrations") ? "active" : "")" asp-area="" asp-controller="Home" asp-action="Registrations">Registrations</a>
                         </li>
-                        <li class="nav-item navbar-right">
-                            <a class="nav-link text-light " asp-area="" asp-controller="Home" asp-action="About">About</a>
+                        <li class="nav-item navbar-right ">
+                            <a class="nav-link  @(ViewBag.Title.Contains("About") ? "active" : "")" asp-area="" asp-controller="Home" asp-action="About">About</a>
                         </li>
                     </ul>
                 </div>
@@ -63,7 +62,7 @@
             <br />
             John Moreau
             CSS233
-            10/28/23
+            12/9/23
         </div>
     </footer>
     <style>
