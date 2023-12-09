@@ -1,15 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-/*
+﻿/*
 * John Moreau
 * CSS233
-* 10/29/2023
-*
-*
+* 12/9/2023
+* 
 */
 
+using System.ComponentModel.DataAnnotations;
 
-namespace john_moreau_MidTerm.Models
+namespace CSS233_Final_SportsPro_JohnMoreau.Models
 {
     public class Country
     {

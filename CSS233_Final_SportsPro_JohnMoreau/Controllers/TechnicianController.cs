@@ -1,5 +1,5 @@
 ﻿//using john_moreau_MidTerm.Migrations;
-using john_moreau_MidTerm.Models;
+using CSS233_Final_SportsPro_JohnMoreau.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +20,7 @@ namespace john_moreau_MidTerm.Controllers
         private SportsContext Context { get; set; }
         public TechnicianController(SportsContext ctx) => Context = ctx;
 
+        [Route("Technicians")]
         public IActionResult List(string sortBy, string sortOrder)
         {
             var technicians = Context.Technicians;

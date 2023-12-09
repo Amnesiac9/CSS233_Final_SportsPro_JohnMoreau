@@ -13,7 +13,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 // Date Times Formatting for FORMS: https://www.mikesdotnetting.com/article/352/working-with-dates-and-times-in-razor-pages-forms#:~:text=Alternatively%2C%20you%20can%20use%20the%20asp-format%20attribute%20on,itself%3A%20DateTime%3A%20%3Cinput%20class%3D%22form-control%22%20asp-for%3D%22DateTime%22%20asp-format%3D%22%20%7B0%3Ayyyy-MM-ddTHH%3Amm%7D%22%20%2F%3E
 // I couldn't get any other format to work. I tried using only one character for month "M", and removing/adding the seconds, but that would result in a blank date.
 
-namespace john_moreau_MidTerm.Models
+namespace CSS233_Final_SportsPro_JohnMoreau.Models
 {
     public class Product
     {

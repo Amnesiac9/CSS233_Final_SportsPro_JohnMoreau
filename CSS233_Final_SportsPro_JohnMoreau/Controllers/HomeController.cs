@@ -1,11 +1,11 @@
-﻿using john_moreau_MidTerm.Models;
+﻿using CSS233_Final_SportsPro_JohnMoreau.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 /*
 * John Moreau
 * CSS233
-* 10/28/2023
+* 12/9/2023
 *
 *
 */
@@ -14,27 +14,25 @@ namespace john_moreau_MidTerm.Controllers
 {
     public class HomeController : Controller
     {
-        //private readonly ILogger<HomeController> _logger;
-
-        //public HomeController(ILogger<HomeController> logger)
-        //{
-        //    _logger = logger;
-        //}
 
         private SportsContext Context { get; set; }
 
         public HomeController(SportsContext ctx) => Context = ctx;
 
+
+        [Route("/")]
         public IActionResult Index()
         {
             return View();
         }
 
+        [Route("About")]
         public IActionResult About()
         {
             return View();
         }
 
+        [Route("Registrations")]
         public IActionResult Registrations()
         {
             return View();

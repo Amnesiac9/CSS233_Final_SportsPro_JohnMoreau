@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Numerics;
-//@*
-//*John Moreau
-//* CSS233
-//* 10/28/2023
-//*@
-namespace john_moreau_MidTerm.Models
+
+namespace CSS233_Final_SportsPro_JohnMoreau.Models
 {
     public class SportsContext : DbContext
     {

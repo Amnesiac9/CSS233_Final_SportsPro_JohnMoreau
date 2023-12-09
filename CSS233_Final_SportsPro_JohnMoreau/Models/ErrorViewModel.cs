@@ -1,4 +1,4 @@
-namespace john_moreau_MidTerm.Models
+namespace CSS233_Final_SportsPro_JohnMoreau.Models
 {
     public class ErrorViewModel
     {

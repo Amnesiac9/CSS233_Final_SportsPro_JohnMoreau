@@ -1,17 +1,17 @@
-﻿//using john_moreau_MidTerm.Migrations;
-using john_moreau_MidTerm.Models;
+﻿/*
+* John Moreau
+* CSS233
+* 12/9/2023
+* 
+*/
+
+using CSS233_Final_SportsPro_JohnMoreau.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
-/*
-* John Moreau
-* CSS233
-* 10/28/2023
-*
-*
-*/
+
 
 namespace john_moreau_MidTerm.Controllers
 {
@@ -20,6 +20,7 @@ namespace john_moreau_MidTerm.Controllers
         private SportsContext Context { get; set; }
         public IncidentController(SportsContext ctx) => Context = ctx;
 
+        [Route("Incidents")]
         public IActionResult List(string sortBy, string sortOrder)
         {
             var incidents = Context.Incidents.Include(c => c.Customer).Include(c => c.Product);

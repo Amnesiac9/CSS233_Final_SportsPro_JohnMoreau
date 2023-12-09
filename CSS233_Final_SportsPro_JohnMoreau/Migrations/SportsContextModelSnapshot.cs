@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using john_moreau_MidTerm.Models;
+using CSS233_Final_SportsPro_JohnMoreau.Models;
 
 #nullable disable
 
-namespace john_moreau_MidTerm.Migrations
+namespace CSS233_Final_SportsPro_JohnMoreau.Migrations
 {
     [DbContext(typeof(SportsContext))]
     partial class SportsContextModelSnapshot : ModelSnapshot

@@ -1,15 +1,17 @@
-using john_moreau_MidTerm.Models;
+/*
+* John Moreau
+* CSS233
+* 12/9/2023
+*
+*
+*/
+
+using CSS233_Final_SportsPro_JohnMoreau.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-/*
-* John Moreau
-* CSS233
-* 10/28/2023
-*
-*
-*/
+
 
 
 
