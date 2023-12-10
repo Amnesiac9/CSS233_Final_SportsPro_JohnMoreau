@@ -2,7 +2,7 @@
 @*
 * John Moreau
 * CSS233
-* 10/28/2023
+* 12/9/2023
 *@
 @model Technician
 @{
@@ -30,7 +30,7 @@
 
     <input type="hidden" asp-for="Id" />
 
-    <input type="hidden" asp-for="DateAdded" />
+    <input type="hidden" asp-for="DateAdded" value="@(Model.DateAdded == string.Empty ? DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt") : Model.DateAdded)  />
 
     <div class="mb-3">
         <button type="submit" class="btn btn-primary">Save</button>

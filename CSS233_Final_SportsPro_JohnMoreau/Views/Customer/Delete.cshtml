@@ -15,6 +15,8 @@
 <form asp-controller="Customer" asp-action="Delete" method="post">
 
     <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="FirstName" /> @*Required because Name is just a concat of First + Last so if those fields are blank we won't get anything.*@
+    <input type="hidden" asp-for="LastName" /> 
 
     <button type="submit" class="btn btn-primary">Yes</button>
     <a asp-controller="Customer" asp-action="List" asp-route-id="@Model?.Id"

@@ -21,7 +21,7 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
         public IncidentController(SportsContext ctx) => Context = ctx;
 
         [Route("Incidents")]
-        public IActionResult List(string sortBy, string sortOrder)
+        public ActionResult List(string sortBy, string sortOrder)
         {
             var incidents = Context.Incidents.Include(c => c.Customer).Include(c => c.Product);
 

@@ -7,7 +7,6 @@
 @model Incident
 @{
     string editDisabledCheck = ViewBag.Action == "Edit" ? "disabled" : "";
-    //string successHiddenCheck = TempData.Keys.Contains("SuccessMessage") ? "" : "hidden";
     string title = ViewBag.Action + " Incident";
     ViewData["Title"] = title;
 

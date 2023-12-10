@@ -1,17 +1,17 @@
-﻿//using john_moreau_MidTerm.Migrations;
+﻿/*
+* John Moreau
+* CSS233
+* 12/9/2023
+*
+*/
+
 using CSS233_Final_SportsPro_JohnMoreau.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
-/*
-* John Moreau
-* CSS233
-* 10/28/2023
-*
-*
-*/
+
 
 namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
 {
@@ -21,7 +21,7 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
         public CustomerController(SportsContext ctx) => Context = ctx;
 
         [Route("Customers")]
-        public IActionResult List(string sortBy, string sortOrder)
+        public ActionResult List(string sortBy, string sortOrder)
         {
             var customers = Context.Customers;
             //var countries = Context.Countries.ToList();
@@ -60,7 +60,7 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
 
 
         [HttpGet]
-        public IActionResult Add()
+        public ActionResult Add()
         {
             ViewBag.Countries = Context.Countries.ToList();
             ViewBag.Action = "Add";
@@ -68,7 +68,7 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public ActionResult Edit(int id)
         {
             var customer = Context.Customers.Find(id);
             ViewBag.Countries = Context.Countries.ToList();
@@ -85,13 +85,14 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
 
                 if (customer.Id == 0)
                 {
-                    customer.DateAdded = DateTime.Now.ToString("MM/dd/yyyy 'at' h:mm tt");
+                    //customer.DateAdded = DateTime.Now.ToString("MM/dd/yyyy 'at' h:mm tt");
                     Context.Customers.Add(customer);
-
+                    TempData["SuccessMessage"] = customer.Name + " has been added.";
                 }
                 else
                 {
                     Context.Customers.Update(customer);
+                    TempData["SuccessMessage"] = customer.Name + " has been updated.";
                 }
 
                 Context.SaveChanges();
@@ -115,17 +116,18 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             var contact = Context.Customers.Find(id);
             return View(contact);
         }
 
         [HttpPost]
-        public IActionResult Delete(Customer customer)
+        public RedirectToActionResult Delete(Customer customer)
         {
             Context.Customers.Remove(customer);
             Context.SaveChanges();
+            TempData["SuccessMessage"] = customer.Name + " has been deleted.";
             return RedirectToAction("List", "Customer");
         }
     }

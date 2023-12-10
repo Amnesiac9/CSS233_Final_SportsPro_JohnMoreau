@@ -80,13 +80,14 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
                 technician.Email = technician.Email != null ? technician.Email.ToLower() : "";
                 if (technician.Id == 0)
                 {
-                    technician.DateAdded = DateTime.Now.ToString("MM/dd/yyyy 'at' h:mm tt");
                     Context.Technicians.Add(technician);
+                    TempData["SuccessMessage"] = technician.Name + " has been added.";
 
                 }
                 else
                 {
                     Context.Technicians.Update(technician);
+                    TempData["SuccessMessage"] = technician.Name + " has been updated.";
                 }
 
                 Context.SaveChanges();
@@ -109,17 +110,18 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             var contact = Context.Technicians.Find(id);
             return View(contact);
         }
 
         [HttpPost]
-        public IActionResult Delete(Technician technician)
+        public RedirectToActionResult Delete(Technician technician)
         {
             Context.Technicians.Remove(technician);
             Context.SaveChanges();
+            TempData["SuccessMessage"] = technician.Name + " has been deleted.";
             return RedirectToAction("List", "Technician");
         }
     }

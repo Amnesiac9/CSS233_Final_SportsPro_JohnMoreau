@@ -88,13 +88,15 @@ namespace john_morCSS233_Final_SportsPro_JohnMoreaueau_MidTerm.Controllers
             {
                 if (product.Id == 0)
                 {
-                    product.DateAdded = DateTime.Now.ToString("MM/dd/yyyy 'at' h:mm tt");
+                    //product.DateAdded = DateTime.Now.ToString("MM/dd/yyyy 'at' h:mm tt");
                     Context.Products.Add(product);
+                    TempData["SuccessMessage"] = product.Name + " has been added.";
 
                 }
                 else
                 {
                     Context.Products.Update(product);
+                    TempData["SuccessMessage"] = product.Name + " has been updated.";
                 }
 
                 Context.SaveChanges();
@@ -130,6 +132,7 @@ namespace john_morCSS233_Final_SportsPro_JohnMoreaueau_MidTerm.Controllers
         {
             Context.Products.Remove(product);
             Context.SaveChanges();
+            TempData["SuccessMessage"] = product.Name + " has been deleted.";
             return RedirectToAction("List", "Product");
         }
     }

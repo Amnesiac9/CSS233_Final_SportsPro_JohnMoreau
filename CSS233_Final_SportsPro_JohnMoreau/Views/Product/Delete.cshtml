@@ -15,6 +15,7 @@
 <form asp-controller="Product" asp-action="Delete" method="post">
 
     <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Name" />
 
     <button type="submit" class="btn btn-primary">Yes</button>
     <a asp-controller="Product" asp-action="List" asp-route-id="@Model?.Id"
