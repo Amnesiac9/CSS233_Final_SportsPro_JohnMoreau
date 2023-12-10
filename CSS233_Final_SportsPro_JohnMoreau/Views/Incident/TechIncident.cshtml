@@ -30,25 +30,25 @@
             <tr>
                 <th>
                     Title
-                    <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="Update" asp-route-sortBy="@Model.GetSortBy("Title")" asp-route-sortOrder="@Model.GetNewSortOrder("Title")" class="sort-button">
+                    <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="TechIncident" asp-route-sortBy="@Model.GetSortBy("Title")" asp-route-sortOrder="@Model.GetNewSortOrder("Title")" class="sort-button">
                         <span class="sort-icon fas @Model.GetSortIcon("Title")" style="margin-left: 5px;"></span>
                     </a>
                 </th>
                 <th>
                     Customer
-                    <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="Update" asp-route-sortBy="@Model.GetSortBy("Customer")" asp-route-sortOrder="@Model.GetNewSortOrder("Customer")" class="sort-button">
+                    <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="TechIncident" asp-route-sortBy="@Model.GetSortBy("Customer")" asp-route-sortOrder="@Model.GetNewSortOrder("Customer")" class="sort-button">
                         <span class="sort-icon fas @Model.GetSortIcon("Customer")" style="margin-left: 5px;"></span>
                     </a>
                 </th>
                 <th>
                     Product
-                    <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="Update" asp-route-sortBy="@Model.GetSortBy("Product")" asp-route-sortOrder="@Model.GetNewSortOrder("Product")" class="sort-button">
+                    <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="TechIncident" asp-route-sortBy="@Model.GetSortBy("Product")" asp-route-sortOrder="@Model.GetNewSortOrder("Product")" class="sort-button">
                         <span class="sort-icon fas @Model.GetSortIcon("Product")" style="margin-left: 5px;"></span>
                     </a>
                 </th>
                 <th>
                     Date Opened
-                    <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="Update" asp-route-sortBy="@Model.GetSortBy("DateOpened")" asp-route-sortOrder="@Model.GetNewSortOrder("DateOpened")" class="sort-button">
+                    <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="TechIncident" asp-route-sortBy="@Model.GetSortBy("DateOpened")" asp-route-sortOrder="@Model.GetNewSortOrder("DateOpened")" class="sort-button">
                         <span class="sort-icon fas @Model.GetSortIcon("DateOpened")" style="margin-left: 5px;"></span>
                     </a>
                 </th>
@@ -64,7 +64,7 @@
                     <td>@incident.Customer?.Name</td>
                     <td>@incident.Product?.Name</td>
                     <td>@incident.DateOpened?.Split(" ")[0]</td>
-                    <td><a class="btn btn-primary" asp-controller="Incident" asp-action="EditTech" asp-route-id="@incident?.Id" asp-route-slug="@incident?.Slug">Edit</a></td>
+                    <td><a class="btn btn-primary" asp-controller="Incident" asp-action="TechEdit" asp-route-id="@incident?.Id" asp-route-slug="@incident?.Slug">Edit</a></td>
                 </tr>
             }
         </tbody>

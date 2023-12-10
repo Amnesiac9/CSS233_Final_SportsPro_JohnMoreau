@@ -189,25 +189,11 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
         }
 
 
-
-        // Seperate Update for Technicians, need to refactor
-        [HttpPost]
-        public ActionResult Update(List<Incident> incidents, int Id)
-        {
-            var technician = Context.Technicians.Find(Id);
-            incidents = Context.Incidents.Include(c => c.Customer).Include(c => c.Product).Where(i => i.TechnicianId == Id).OrderBy(m => m.Id).ToList();
-            ViewBag.Technicians = Context.Technicians.ToList();
-            return View((incidents, technician));
-        }
-
-        // Seperate Update for Technicians, need to refactor
+        [Route("Tech/Incidents/Edit")]
         [HttpGet]
-        public ActionResult EditTech(int id)
+        public ActionResult TechEdit(int id)
         {
-            var incident = Context.Incidents.Find(id);
-            ViewBag.Customers = Context.Customers.ToList();
-            ViewBag.Products = Context.Products.ToList();
-            ViewBag.Technicians = Context.Technicians.ToList();
+            var incident = Context.Incidents.Include(i => i.Customer).Include(i => i.Product).Include(i => i.Technician).FirstOrDefault(i => i.Id == id);
             ViewBag.Action = "Edit";
             return View(incident);
         }
@@ -216,19 +202,19 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
         [HttpPost]
         public IActionResult EditTech(Incident incident, int TechId)
         {
-            Console.WriteLine("EditTech Post ID: " + TechId);
 
             if (ModelState.IsValid)
             {
                 if (incident.Id == 0)
                 {
-                    incident.DateOpened = DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt");
+                    incident.DateOpened = DateTime.Parse(incident.DateOpened).ToString("MM/dd/yyyy h:mm:ss tt");
                     Context.Incidents.Add(incident);
-
+                    TempData["SuccessMessage"] = incident.Title + " has been added.";
                 }
                 else
                 {
                     Context.Incidents.Update(incident);
+                    TempData["SuccessMessage"] = incident?.Title + " has been updated.";
                 }
 
                 Context.SaveChanges();
@@ -236,18 +222,8 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
             }
             else
             {
-                ViewBag.Customers = Context.Customers.ToList();
-                ViewBag.Products = Context.Products.ToList();
-                ViewBag.Technicians = Context.Technicians.ToList();
-                ViewBag.Action = (incident.Id == 0) ? "Add" : "Edit";
-                if (incident.Id == 0)
-                {
-                    return View("EditTech", incident);
-                }
-                else
-                {
-                    return View(incident);
-                }
+                ViewBag.Action = "Edit";
+                return View(incident.Id);
 
             }
         }

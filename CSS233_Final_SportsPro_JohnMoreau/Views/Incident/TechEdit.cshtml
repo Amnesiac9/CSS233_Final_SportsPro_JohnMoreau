@@ -1,0 +1,94 @@
+﻿
+@*
+* John Moreau
+* CSS233
+* 12/10/2023
+*@
+@model Incident
+@{
+    string title = ViewBag.Action + " Incident";
+    ViewData["Title"] = title;
+}
+<h2>@title</h2>
+<form asp-controller="Incident" asp-action="TechEdit" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="row mb-3">
+        <div class="col-2 mt-1">
+            <label asp-for="TechnicianId" class="form-label">Technician</label>
+        </div>
+        <div class="col-10 mt-1">
+            <input type="hidden" asp-for="TechnicianId" />
+            @Model.Technician?.Name
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-2 mt-1">
+            <label asp-for="CustomerId" class="form-label">Customer</label>
+        </div>
+        <div class="col-10 mt-1">
+            <input type="hidden" asp-for="CustomerId" />
+            @Model.Customer?.Name
+        </div>
+    </div>
+
+    <div class="row mb-3 mt-1">
+        <div class="col-2 mt-1">
+            <label asp-for="ProductId" class="form-label">Product</label>
+        </div>
+        <div class="col-10 mt-1">
+            <input type="hidden" asp-for="ProductId" />
+            @Model.Product?.Name
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-2 mt-1">
+            <label asp-for="Title" class="form-label">Title</label>
+        </div>
+        <div class="col-10 mt-1">
+            <input type="hidden" asp-for="Title" />
+            @Model.Title
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-2 mt-1">
+            <label asp-for="DateOpened" class="form-label">Date Opened</label>
+        </div>
+        <div class="col-10 mt-1">
+            <input type="hidden" asp-for="DateOpened" />
+            @Model.DateOpened 
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-2 mt-1">
+            <label asp-for="Description" class="form-label">Description</label>
+        </div>
+        <div class="col-10 mt-1">
+            <textarea asp-for="Description" class="form-control" type="text"></textarea>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-2 mt-1">
+            <label asp-for="DateClosed" class="form-label">Date Closed</label>
+        </div>
+        <div class="col-10">
+            <input asp-for="DateClosed" class="form-control"  type="date">
+        </div>
+    </div>
+
+
+    @*<input type="hidden" asp-for="DateOpened" />*@ @*To allow date opened to send in the POST request when updating.*@
+
+    <input type="hidden" asp-for="Id" />
+
+    
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-controller="Incident" asp-action="TechIncident" method="post" asp-route-id="@Model.TechnicianId"
+           class="btn btn-primary">Cancel</a>
+    </div>
+
+</form>
