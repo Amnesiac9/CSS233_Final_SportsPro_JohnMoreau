@@ -3,84 +3,68 @@
 * CSS233
 * 12/9/2023
 *@
-@model List<Incident>
-@{
-    string GetCurrentSortOrder(string sortBy) => ViewData[(sortBy + "SortOrder")]?.ToString() ?? "";
-
-    // For getting a new sort order to pass to my backend controller so that the URL query matches the actual sort order >:|
-    string GetNewSortOrder(string sortBy) => GetCurrentSortOrder(sortBy) switch
-    {
-        "asc" => "desc",
-        "desc" => "",
-        _ => "asc",
-    };
-
-    // For getting the sort by value to pass to my backend controller so that the URL query will go away when I'm not sorting by anything
-    string GetSortBy(string sortBy)
-    {
-        if (GetNewSortOrder(sortBy) == "") return "";
-        return sortBy;
-    }
-
-    // Get Icon for sort
-    string GetSortIcon(string sortBy) => GetCurrentSortOrder(sortBy) switch 
-    {
-        "asc" => "fa-arrow-up",
-        "desc" => "fa-arrow-down",
-        _ => "fa-sort",
-    };
-}
+@model IncidentViewModel
 @{
     ViewData["Title"] = "Incident Manager";
 }
 <h1>@ViewData["Title"]</h1>
-<table class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <th>
-                Title
-                <a asp-controller="Incident" asp-action="List" asp-route-sortBy="@(GetSortBy("Title"))" asp-route-sortOrder="@(GetNewSortOrder("Title"))" class="sort-button">
-                    <span class="sort-icon fas @GetSortIcon("Title")" style="margin-left: 5px;"></span>
-                </a>
-            </th>
-            <th>
-                Customer
-                <a asp-controller="Incident" asp-action="List" asp-route-sortBy="@(GetSortBy("Customer"))" asp-route-sortOrder="@(GetNewSortOrder("Customer"))" class="sort-button">
-                    <span class="sort-icon fas @GetSortIcon("Customer")" style="margin-left: 5px;"></span>
-                </a>
-            </th>
-            <th>
-                Product
-                <a asp-controller="Incident" asp-action="List" asp-route-sortBy="@(GetSortBy("Product"))" asp-route-sortOrder="@(GetNewSortOrder("Product"))" class="sort-button">
-                    <span class="sort-icon fas @GetSortIcon("Product")" style="margin-left: 5px;"></span>
-                </a>
-            </th>
-            <th>
-                Date Opened
-                <a asp-controller="Incident" asp-action="List" asp-route-sortBy="@(GetSortBy("DateOpened"))" asp-route-sortOrder="@(GetNewSortOrder("DateOpened"))" class="sort-button">
-                    <span class="sort-icon fas @GetSortIcon("DateOpened")" style="margin-left: 5px;"></span>
-                </a>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var incident in Model)
-        {
+@if (Model.Incidents != null)
+{
+    <table class="table table-striped table-bordered">
+        <thead>
             <tr>
-                <td>@incident.Title</td>
-                <td>@incident.Customer?.Name</td>
-                <td>@incident.Product?.Name</td>
-                <td>@incident.DateOpened?.Split(" ")[0]</td>
-                <td><a class="btn btn-primary" asp-controller="Incident" asp-action="Edit" asp-route-id="@incident?.Id" asp-route-slug="@incident?.Slug">Edit</a></td>
-                <td><a class="btn btn-primary" asp-controller="Incident" asp-action="Delete" asp-route-id="@incident?.Id" asp-route-slug="@incident?.Slug">Delete</a></td>
+                <th>
+                    Title
+                    <a asp-controller="Incident" asp-action="List" asp-route-sortBy="@Model.GetSortBy("Title")" asp-route-sortOrder="@Model.GetNewSortOrder("Title")" class="sort-button">
+                        <span class="sort-icon fas @Model.GetSortIcon("Title")" style="margin-left: 5px;"></span>
+                    </a>
+                </th>
+                <th>
+                    Customer
+                    <a asp-controller="Incident" asp-action="List" asp-route-sortBy="@Model.GetSortBy("Customer")" asp-route-sortOrder="@Model.GetNewSortOrder("Customer")" class="sort-button">
+                        <span class="sort-icon fas @Model.GetSortIcon("Customer")" style="margin-left: 5px;"></span>
+                    </a>
+                </th>
+                <th>
+                    Product
+                    <a asp-controller="Incident" asp-action="List" asp-route-sortBy="@Model.GetSortBy("Product")" asp-route-sortOrder="@Model.GetNewSortOrder("Product")" class="sort-button">
+                        <span class="sort-icon fas @Model.GetSortIcon("Product")" style="margin-left: 5px;"></span>
+                    </a>
+                </th>
+                <th>
+                    Date Opened
+                    <a asp-controller="Incident" asp-action="List" asp-route-sortBy="@Model.GetSortBy("DateOpened")" asp-route-sortOrder="@Model.GetNewSortOrder("DateOpened")" class="sort-button">
+                        <span class="sort-icon fas @Model.GetSortIcon("DateOpened")" style="margin-left: 5px;"></span>
+                    </a>
+                </th>
+                <th>
+                </th>
+                <th>
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var incident in Model.Incidents)
+            {
+                <tr>
+                    <td>@incident.Title</td>
+                    <td>@incident.Customer?.Name</td>
+                    <td>@incident.Product?.Name</td>
+                    <td>@incident.DateOpened?.Split(" ")[0]</td>
+                    <td><a class="btn btn-primary" asp-controller="Incident" asp-action="Edit" asp-route-id="@incident?.Id" asp-route-slug="@incident?.Slug">Edit</a></td>
+                    <td><a class="btn btn-primary" asp-controller="Incident" asp-action="Delete" asp-route-id="@incident?.Id" asp-route-slug="@incident?.Slug">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+ 
+    </table>
+}
+else
+{
+    <div>
+        No Incidents Found.
+    </div>
+}
 <div class="mb-4">
-    <a class="btn btn-primary" asp-controller="Incident" asp-action="Add">Add Incident</a>
+    <a class="btn btn-primary" asp-controller="Incident" asp-action="Edit">Add Incident</a>
 </div>

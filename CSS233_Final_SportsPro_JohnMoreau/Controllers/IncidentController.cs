@@ -23,90 +23,59 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
         [Route("Incidents")]
         public ActionResult List(string sortBy, string sortOrder)
         {
+            
+
             var incidents = Context.Incidents.Include(c => c.Customer).Include(c => c.Product);
+            var incidentView = new IncidentViewModel(sortBy, sortOrder, incidents);
 
-            switch (sortBy)
-            {
-                case "Title":
-                    ViewData["TitleSortOrder"] = sortOrder;
-                    return sortOrder switch
-                    {
-                        "asc" => View(incidents.OrderBy(m => m.Title).ToList()),
-                        "desc" => View(incidents.OrderByDescending(m => m.Title).ToList()),
-                        _ => View(incidents.OrderBy(m => m.Id).ToList()),
-                    };
-                case "Customer":
-                    ViewData["CustomerSortOrder"] = sortOrder;
-                    return sortOrder switch
-                    {
-                        "asc" => View(incidents.OrderBy(m => m.Customer == null ? "" : m.Customer.FirstName).ToList()),
-                        "desc" => View(incidents.OrderByDescending(m => m.Customer == null ? "" : m.Customer.FirstName).ToList()),
-                        _ => View(incidents.OrderBy(m => m.Id).ToList()),
-                    };
-                case "Product":
-                    ViewData["ProductSortOrder"] = sortOrder;
-                    return sortOrder switch
-                    {
-                        "asc" => View(incidents.OrderBy(m => m.Product == null ? "" : m.Product.Name).ToList()),
-                        "desc" => View(incidents.OrderByDescending(m => m.Product == null ? "" : m.Product.Name).ToList()),
-                        _ => View(incidents.OrderBy(m => m.Id).ToList()),
-                    };
-                case "DateOpened":
-                    ViewData["DateOpenedSortOrder"] = sortOrder;
-                    return sortOrder switch
-                    {
-                        "asc" => View(incidents.OrderBy(m => m.DateOpened).ToList()),
-                        "desc" => View(incidents.OrderByDescending(m => m.DateOpened).ToList()),
-                        _ => View(incidents.OrderBy(m => m.Id).ToList()),
-                    };
-                default:
-                    return View(incidents.OrderBy(m => m.Id).ToList());
-
-            }
+            return View(incidentView);
         }
 
+        // No Longer Needed
+        //[HttpGet]
+        //public ActionResult Add()
+        //{
 
-        [HttpGet]
-        public ActionResult Add()
-        {
-            ViewBag.Customers = Context.Customers.ToList();
-            ViewBag.Products = Context.Products.ToList();
-            ViewBag.Technicians = Context.Technicians.ToList();
-            ViewBag.Action = "Add";
-            return View("Edit", new Incident());
-        }
+        //    ViewBag.Customers = Context.Customers.ToList();
+        //    ViewBag.Products = Context.Products.ToList();
+        //    ViewBag.Technicians = Context.Technicians.ToList();
+        //    ViewBag.Action = "Add";
+        //    return View("Edit", new Incident());
+        //}
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var incident = Context.Incidents.Find(id);
-            ViewBag.Customers = Context.Customers.ToList();
-            ViewBag.Products = Context.Products.ToList();
-            ViewBag.Technicians = Context.Technicians.ToList();
-            ViewBag.Action = "Edit";
-            return View(incident);
+            var incidentView = new IncidentViewModel
+            {
+                CurrentAction = id == 0 ? "Add" : "Edit",
+                CurrentIncident = Context.Incidents.Find(id) ?? new Incident(),
+                Customers = Context.Customers.ToList(),
+                Products = Context.Products.ToList(),
+                Technicians = Context.Technicians.ToList()
+            };
+
+            return View(incidentView);
         }
 
         [HttpPost]
-        public IActionResult Edit(Incident incident)
+        public IActionResult Edit(IncidentViewModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && model.CurrentIncident != null)
             {
-                if (incident.Id == 0)
+                if (model.CurrentIncident?.Id == 0)
                 {
                     // Not sure why the DateOpened is not binding properly to the incident model
                     // Solved, it was because field was disabled.
                     // incident.DateOpened = DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt");
 
-                    // Add TempData for Messages
-                    TempData["SuccessMessage"] = incident.Title + " has been added.";
-                    Context.Incidents.Add(incident);
-
+                    Context.Incidents.Add(model.CurrentIncident ?? new Incident()); // Even though I check if the incident is not null, without the null coalesce here I get a warning of possible null dereference.
+                    TempData["SuccessMessage"] = model.CurrentIncident?.Title + " has been added."; // Add TempData for Messages
                 }
                 else
                 {
-                    TempData["SuccessMessage"] = incident.Title + " has been updated.";
-                    Context.Incidents.Update(incident);
+                    TempData["SuccessMessage"] = model.CurrentIncident?.Title + " has been updated.";
+                    Context.Incidents.Update(model.CurrentIncident ?? new Incident()); 
                 }
 
                 Context.SaveChanges();
@@ -115,19 +84,15 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
             }
             else
             {
-                ViewBag.Customers = Context.Customers.ToList();
-                ViewBag.Products = Context.Products.ToList();
-                ViewBag.Technicians = Context.Technicians.ToList();
-                ViewBag.Action = (incident.Id == 0) ? "Add" : "Edit";
-                if (incident.Id == 0)
+                var incidentView = new IncidentViewModel
                 {
-                    return View("Edit", incident);
-                }
-                else
-                {
-                    return View(incident);
-                }
-
+                    CurrentAction = model.CurrentIncident?.Id == 0 ? "Add" : "Edit",
+                    CurrentIncident = model.CurrentIncident,
+                    Customers = Context.Customers.ToList(),
+                    Products = Context.Products.ToList(),
+                    Technicians = Context.Technicians.ToList()
+                };
+                return View(incidentView);
             }
         }
 
@@ -148,8 +113,12 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
         }
 
 
+        // TECHNICIAN UPDATES
+        // This was already built by me for my midterm partially, I implimented it a slightly different way.
+
         // Seperate Update for Technicians, need to refactor
-        public IActionResult Update(string sortBy, string sortOrder, int Id)
+        [Route("Tech/Incidents")]
+        public IActionResult TechIncident(string sortBy, string sortOrder, int Id)
         {
             if (Id == 0)
             {

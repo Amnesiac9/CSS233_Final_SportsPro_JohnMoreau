@@ -1,7 +1,7 @@
 ﻿@*
 * John Moreau
 * CSS233
-* 10/29/2023
+* 12/9/2023
 *@
 @* Tuple as model to allow multiple uses*@
 @model (List<Incident>, Technician); 
@@ -143,7 +143,11 @@
     </table>
 } else
 {
-    <div class="mb-3">
-        <p>No Incidents Found</p>
-    </div>
+    @if(Model.Item2.Id != 0)
+    {
+        <div class="mb-3">
+            <p>No Incidents Found</p>
+        </div>
+    }
+
 }

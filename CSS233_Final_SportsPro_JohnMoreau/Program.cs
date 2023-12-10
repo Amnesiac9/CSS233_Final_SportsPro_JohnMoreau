@@ -3,7 +3,6 @@
 * CSS233
 * 12/9/2023
 *
-*
 */
 
 using CSS233_Final_SportsPro_JohnMoreau.Models;
@@ -12,7 +11,9 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 
-
+// Enable Session State
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
 
 
 // Add services to the container.
@@ -37,6 +38,9 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+// Enable Session State
+app.UseSession();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
