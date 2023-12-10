@@ -26,7 +26,9 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Models
 
         public List<Technician>? Technicians { get; set; }
 
+        
         public Incident? CurrentIncident { get; set; }
+
 
         public Technician? CurrentTechnician { get; set; }
 

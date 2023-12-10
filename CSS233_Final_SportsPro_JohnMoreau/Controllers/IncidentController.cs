@@ -112,18 +112,32 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
 
 
         [Route("Tech/Incidents")]
-        public IActionResult TechIncident(string sortBy, string sortOrder, int id)
+        public ActionResult TechIncident(string sortBy, string sortOrder, int id)
         {
-            // Get Tech ID from session state.
-
 
             var incidentView = new IncidentViewModel
             {
                 Technicians = Context.Technicians.ToList()
             };
 
+            // Get session state.
+            if (id == 0)
+            {
+                var sessionItems = HttpContext.Session.GetObject<SessionItems>("SessionItems");
+                if (sessionItems != null)
+                {
+                    sortBy = sessionItems.SortBy;
+                    sortOrder = sessionItems.SortOrder;
+                    id = sessionItems.CurrentTechnicianId;
+                }
+            }
+            
             if (id != 0)
             {
+
+                // Set session state
+                HttpContext.Session.SetObject("SessionItems", new SessionItems(sortBy, sortOrder, id));
+
                 incidentView.SortBy = sortBy;
                 incidentView.SortOrder = sortOrder;
                 incidentView.CurrentTechnician = Context.Technicians.Find(id);
@@ -135,17 +149,16 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
 
 
 
-
         [Route("Tech/Incidents/Edit")]
         [HttpGet]
         public ActionResult TechEdit(int id)
         {
+
             var incident = Context.Incidents.Include(i => i.Customer).Include(i => i.Product).Include(i => i.Technician).FirstOrDefault(i => i.Id == id);
             ViewBag.Action = "Edit";
             return View(incident);
         }
 
-        // Seperate Update for Technicians, need to refactor
         [Route("Tech/Incidents/Edit")]
         [HttpPost]
         public IActionResult TechEdit(Incident incident)
@@ -166,7 +179,16 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
                 }
 
                 Context.SaveChanges();
-                return RedirectToAction("TechIncident", "Incident", new { sortBy = "", sortOrder = "", Id = incident?.TechnicianId });
+
+                // Get and set session
+                var sessionItems = HttpContext.Session.GetObject<SessionItems>("SessionItems");
+                if (sessionItems != null && incident?.TechnicianId != null)
+                {
+                    sessionItems.CurrentTechnicianId = incident.TechnicianId;
+                    HttpContext.Session.SetObject("SessionItems", sessionItems);
+                }
+
+                return RedirectToAction("TechIncident", "Incident");
             }
             else
             {
