@@ -28,6 +28,8 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Models
 
         public Incident? CurrentIncident { get; set; }
 
+        public Technician? CurrentTechnician { get; set; }
+
         public string? IncidentFilter { get; set; }
 
         public string? CurrentAction { get; set; }
@@ -41,11 +43,57 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Models
         public IncidentViewModel() { }
 
         // Sort By Constructor
-        public IncidentViewModel(string sortBy, string orderBy, IIncludableQueryable<Incident, Product?> incidents)
+        public IncidentViewModel(string sortBy, string sortOrder, IIncludableQueryable<Incident, Product?> incidents)
         {
             SortBy = sortBy;
-            SortOrder = orderBy;
+            SortOrder = sortOrder;
             Incidents = GetSortedIncidentList(incidents);
+        }
+
+        public IncidentViewModel(string sortBy, string sortOrder, Technician currentTech, List<Technician> technicians, List<Incident> incidents)
+        {
+            SortBy = sortBy;
+            SortOrder = sortOrder;
+            CurrentTechnician = currentTech;
+            Technicians = technicians;
+            Incidents = GetSortedIncidentList(incidents);
+        }
+
+        public static Incident NewIncident()
+        {
+            return new Incident();
+        }
+
+        public List<Incident> GetSortedIncidentList(List<Incident> incidents)
+        {
+            return SortBy switch
+            {
+                "Title" => SortOrder switch
+                {
+                    "asc" => incidents.OrderBy(m => m.Title).ToList(),
+                    "desc" => incidents.OrderByDescending(m => m.Title).ToList(),
+                    _ => incidents.OrderBy(m => m.Id).ToList(),
+                },
+                "Customer" => SortOrder switch
+                {
+                    "asc" => incidents.OrderBy(m => m.Customer == null ? "" : m.Customer.FirstName).ToList(),
+                    "desc" => incidents.OrderByDescending(m => m.Customer == null ? "" : m.Customer.FirstName).ToList(),
+                    _ => incidents.OrderBy(m => m.Id).ToList(),
+                },
+                "Product" => SortOrder switch
+                {
+                    "asc" => incidents.OrderBy(m => m.Product == null ? "" : m.Product.Name).ToList(),
+                    "desc" => incidents.OrderByDescending(m => m.Product == null ? "" : m.Product.Name).ToList(),
+                    _ => incidents.OrderBy(m => m.Id).ToList(),
+                },
+                "DateOpened" => SortOrder switch
+                {
+                    "asc" => incidents.OrderBy(m => m.DateOpened).ToList(),
+                    "desc" => incidents.OrderByDescending(m => m.DateOpened).ToList(),
+                    _ => incidents.OrderBy(m => m.Id).ToList(),
+                },
+                _ => incidents.OrderBy(m => m.Id).ToList(),
+            };
         }
 
         public List<Incident> GetSortedIncidentList(IIncludableQueryable<Incident, Product?> incidents)

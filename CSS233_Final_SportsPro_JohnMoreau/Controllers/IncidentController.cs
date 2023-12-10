@@ -23,11 +23,8 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
         [Route("Incidents")]
         public ActionResult List(string sortBy, string sortOrder)
         {
-            
-
             var incidents = Context.Incidents.Include(c => c.Customer).Include(c => c.Product);
             var incidentView = new IncidentViewModel(sortBy, sortOrder, incidents);
-
             return View(incidentView);
         }
 
@@ -46,6 +43,7 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
+            // New View Model
             var incidentView = new IncidentViewModel
             {
                 CurrentAction = id == 0 ? "Add" : "Edit",
@@ -74,8 +72,8 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
                 }
                 else
                 {
+                    Context.Incidents.Update(model.CurrentIncident ?? new Incident());
                     TempData["SuccessMessage"] = model.CurrentIncident?.Title + " has been updated.";
-                    Context.Incidents.Update(model.CurrentIncident ?? new Incident()); 
                 }
 
                 Context.SaveChanges();
@@ -117,60 +115,80 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
         // This was already built by me for my midterm partially, I implimented it a slightly different way.
 
         // Seperate Update for Technicians, need to refactor
+        //[Route("Tech/Incidents")]
+        //public IActionResult TechIncidentOld(string sortBy, string sortOrder, int Id)
+        //{
+
+        //    if (Id == 0)
+        //    {
+        //        ViewBag.Technicians = Context.Technicians.ToList();
+        //        return View((new List<Incident>(), new Technician()));
+        //    }
+        //    var technician = Context.Technicians.Find(Id);
+        //    var incidents = Context.Incidents.Include(c => c.Customer).Include(c => c.Product).Where(i => i.TechnicianId == Id); //.OrderBy(m => m.Id).ToList();
+        //    ViewBag.Technicians = Context.Technicians.ToList();
+
+        //    switch (sortBy)
+        //    {
+        //        case "Title":
+        //            ViewData["TitleSortOrder"] = sortOrder;
+        //            return sortOrder switch
+        //            {
+        //                "asc" => View((incidents.OrderBy(m => m.Title).ToList(), technician)),
+        //                "desc" => View((incidents.OrderByDescending(m => m.Title).ToList(), technician)),
+        //                _ => View((incidents.OrderBy(m => m.Id).ToList(), technician)),
+        //            };
+        //        case "Customer":
+        //            ViewData["CustomerSortOrder"] = sortOrder;
+        //            return sortOrder switch
+        //            {
+        //                "asc" => View((incidents.OrderBy(m => m.Customer == null ? "" : m.Customer.FirstName).ToList(), technician)),
+        //                "desc" => View((incidents.OrderByDescending(m => m.Customer == null ? "" : m.Customer.FirstName).ToList(), technician)),
+        //                _ => View((incidents.OrderBy(m => m.Id).ToList(), technician)),
+        //            };
+        //        case "Product":
+        //            ViewData["ProductSortOrder"] = sortOrder;
+        //            return sortOrder switch
+        //            {
+        //                "asc" => View((incidents.OrderBy(m => m.Product == null ? "" : m.Product.Name).ToList(), technician)),
+        //                "desc" => View((incidents.OrderByDescending(m => m.Product == null ? "" : m.Product.Name).ToList(), technician)),
+        //                _ => View((incidents.OrderBy(m => m.Id).ToList(), technician)),
+        //            };
+        //        case "DateOpened":
+        //            ViewData["DateOpenedSortOrder"] = sortOrder;
+        //            return sortOrder switch
+        //            {
+        //                "asc" => View((incidents.OrderBy(m => m.DateOpened).ToList(), technician)),
+        //                "desc" => View((incidents.OrderByDescending(m => m.DateOpened).ToList(), technician)),
+        //                _ => View((incidents.OrderBy(m => m.Id).ToList(), technician)),
+        //            };
+        //        default:                    
+        //            return View((incidents.OrderBy(m => m.Id).ToList(), technician));
+
+        //    }
+
+
+
+        //}
+
         [Route("Tech/Incidents")]
-        public IActionResult TechIncident(string sortBy, string sortOrder, int Id)
+        public IActionResult TechIncident(string sortBy, string sortOrder, int id)
         {
-            if (Id == 0)
-            {
-                ViewBag.Technicians = Context.Technicians.ToList();
-                return View((new List<Incident>(), new Technician()));
-            }
-            var technician = Context.Technicians.Find(Id);
-            var incidents = Context.Incidents.Include(c => c.Customer).Include(c => c.Product).Where(i => i.TechnicianId == Id); //.OrderBy(m => m.Id).ToList();
-            ViewBag.Technicians = Context.Technicians.ToList();
 
-            switch (sortBy)
-            {
-                case "Title":
-                    ViewData["TitleSortOrder"] = sortOrder;
-                    return sortOrder switch
-                    {
-                        "asc" => View((incidents.OrderBy(m => m.Title).ToList(), technician)),
-                        "desc" => View((incidents.OrderByDescending(m => m.Title).ToList(), technician)),
-                        _ => View((incidents.OrderBy(m => m.Id).ToList(), technician)),
-                    };
-                case "Customer":
-                    ViewData["CustomerSortOrder"] = sortOrder;
-                    return sortOrder switch
-                    {
-                        "asc" => View((incidents.OrderBy(m => m.Customer == null ? "" : m.Customer.FirstName).ToList(), technician)),
-                        "desc" => View((incidents.OrderByDescending(m => m.Customer == null ? "" : m.Customer.FirstName).ToList(), technician)),
-                        _ => View((incidents.OrderBy(m => m.Id).ToList(), technician)),
-                    };
-                case "Product":
-                    ViewData["ProductSortOrder"] = sortOrder;
-                    return sortOrder switch
-                    {
-                        "asc" => View((incidents.OrderBy(m => m.Product == null ? "" : m.Product.Name).ToList(), technician)),
-                        "desc" => View((incidents.OrderByDescending(m => m.Product == null ? "" : m.Product.Name).ToList(), technician)),
-                        _ => View((incidents.OrderBy(m => m.Id).ToList(), technician)),
-                    };
-                case "DateOpened":
-                    ViewData["DateOpenedSortOrder"] = sortOrder;
-                    return sortOrder switch
-                    {
-                        "asc" => View((incidents.OrderBy(m => m.DateOpened).ToList(), technician)),
-                        "desc" => View((incidents.OrderByDescending(m => m.DateOpened).ToList(), technician)),
-                        _ => View((incidents.OrderBy(m => m.Id).ToList(), technician)),
-                    };
-                default:                    
-                    return View((incidents.OrderBy(m => m.Id).ToList(), technician));
+                var incidentView = new IncidentViewModel
+                (
+                    sortBy,
+                    sortOrder,
+                    Context.Technicians.Find(id),
+                    Context.Technicians.ToList(),
+                    Context.Incidents.Include(c => c.Customer).Include(c => c.Product).Where(i => i.TechnicianId == id).ToList()
+                );
 
-            }
-
-
+            return View(incidentView);
 
         }
+
+
 
         // Seperate Update for Technicians, need to refactor
         [HttpPost]
