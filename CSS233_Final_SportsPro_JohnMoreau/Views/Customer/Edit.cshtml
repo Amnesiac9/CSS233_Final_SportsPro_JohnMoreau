@@ -8,19 +8,21 @@
 @{
     string title = ViewBag.Action + " Customer";
     ViewData["Title"] = title;
+    string isInvalid(string str) => ViewData.ModelState.GetFieldValidationState(str) == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid ? "is-invalid" : ""; // WHY IS THIS SO HARD?
 }
 <h2>@title</h2>
-<form asp-controller="Customer" asp-action="Edit" method="post">
+<form asp-controller="Customer" asp-action="Edit" method="post" class="needs-validation">
     @*<div asp-validation-summary="All" class="text-danger"></div>*@
-
 
     <div class="row mb-3">
         <div class="col-2 mt-1">
             <label asp-for="FirstName" class="form-label">First Name</label>
         </div>
-        <div class="col-10">
-            <input asp-for="FirstName" class="form-control">
-            <div class="text-danger">@Html.ValidationMessage("FirstName")</div>
+        <div class="col-5">
+            <input asp-for="FirstName" class="form-control @isInvalid("FirstName")">
+        </div>
+        <div class="col-5 text-danger">
+            @Html.ValidationMessage("FirstName")
         </div>
     </div>
 
@@ -29,9 +31,11 @@
         <div class="col-2 mt-1">
             <label asp-for="LastName" class="form-label">Last Name</label>
         </div>
-        <div class="col-10">
-            <input asp-for="LastName" class="form-control">
-            <div class="text-danger">@Html.ValidationMessage("LastName")</div>
+        <div class="col-5">
+            <input asp-for="LastName" class="form-control @isInvalid("LastName")">
+        </div>
+        <div class="col-5 text-danger">
+            @Html.ValidationMessage("LastName")
         </div>
     </div>
 
@@ -39,9 +43,11 @@
         <div class="col-2 mt-1">
             <label asp-for="Address" class="form-label">Address</label>
         </div>
-        <div class="col-10">
-            <input asp-for="Address" class="form-control">
-            <div class="text-danger">@Html.ValidationMessage("Address")</div>
+        <div class="col-5">
+            <input asp-for="Address" class="form-control @isInvalid("Address")">
+        </div>
+        <div class="col-5 text-danger">
+            @Html.ValidationMessage("Address")
         </div>
     </div>
 
@@ -49,9 +55,11 @@
         <div class="col-2 mt-1">
             <label asp-for="City" class="form-label">City</label>
         </div>
-        <div class="col-10">
-            <input asp-for="City" class="form-control">
-            <div class="text-danger">@Html.ValidationMessage("City")</div>
+        <div class="col-5">
+            <input asp-for="City" class="form-control @isInvalid("City")">
+        </div>
+        <div class="col-5 text-danger">
+            @Html.ValidationMessage("City")
         </div>
     </div>
 
@@ -59,9 +67,11 @@
         <div class="col-2 mt-1">
             <label asp-for="State" class="form-label">State</label>
         </div>
-        <div class="col-10">
-            <input asp-for="State" class="form-control">
-            <div class="text-danger">@Html.ValidationMessage("State")</div>
+        <div class="col-5">
+            <input asp-for="State" class="form-control @isInvalid("State")">
+        </div>
+        <div class="col-5 text-danger">
+            @Html.ValidationMessage("State")
         </div>
     </div>
 
@@ -69,9 +79,11 @@
         <div class="col-2 mt-1">
             <label asp-for="PostalCode" class="form-label">Postal Code</label>
         </div>
-        <div class="col-10">
-            <input asp-for="PostalCode" class="form-control">
-            <div class="text-danger">@Html.ValidationMessage("PostalCode")</div>
+        <div class="col-5">
+            <input asp-for="PostalCode" class="form-control @isInvalid("PostalCode")">
+        </div>
+        <div class="col-5 text-danger">
+            @Html.ValidationMessage("PostalCode")
         </div>
     </div>
 
@@ -79,11 +91,13 @@
         <div class="col-2 mt-1">
             <label asp-for="CountryId" class="form-label">Country</label>
         </div>
-        <div class="col-10">
-            <select asp-for="CountryId" asp-items="@(new SelectList(ViewBag.Countries, "Id", "Name"))" class="form-select">
+        <div class="col-5">
+            <select asp-for="CountryId" asp-items="@(new SelectList(ViewBag.Countries, "Id", "Name"))" class="form-select @isInvalid("CountryId")">
                 <option value=0>Select a country...</option>
             </select>
-            <div class="text-danger">@Html.ValidationMessage("CountryId")</div>
+        </div>
+        <div class="col-5 text-danger">
+            @Html.ValidationMessage("CountryId")
         </div>
     </div>
 
@@ -91,9 +105,11 @@
         <div class="col-2 mt-1">
             <label asp-for="Email" class="form-label">Email</label>
         </div>
-        <div class="col-10">
-            <input asp-for="Email" class="form-control" type="email">
-            <div class="text-danger">@Html.ValidationMessage("Email")</div>
+        <div class="col-5">
+            <input asp-for="Email" class="form-control @isInvalid("Email")" type="email">
+        </div>
+        <div class="col-5 text-danger">
+            @Html.ValidationMessage("Email")
         </div>
     </div>
 
@@ -101,9 +117,11 @@
         <div class="col-2 mt-1">
             <label asp-for="Phone" class="form-label">Phone</label>
         </div>
-        <div class="col-10">
-            <input asp-for="Phone" class="form-control" type="tel">
-            <div class="text-danger">@Html.ValidationMessage("Phone")</div>
+        <div class="col-5">
+            <input asp-for="Phone" class="form-control @isInvalid("Phone")" type="tel">
+        </div>
+        <div class="col-5 text-danger">
+            @Html.ValidationMessage("Phone")
         </div>
     </div>
 

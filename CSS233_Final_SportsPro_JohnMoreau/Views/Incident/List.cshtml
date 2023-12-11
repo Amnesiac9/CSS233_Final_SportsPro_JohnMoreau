@@ -6,41 +6,35 @@
 @model IncidentViewModel
 @{
     ViewData["Title"] = "Incident Manager";
-    string checkActiveCategory(string cat) => Model.Category == cat ? "btn-primary" : "";
+    //string checkActiveCategory(string cat) => Model.Category == cat ? "btn-primary" : "";
+    string checkActiveCategory(string cat) => Model.Category == cat ? "active" : "";
 }
 <h1>@ViewData["Title"]</h1>
-@if (Model.Incidents != null)
-{
-    <div class="mb-3 mt-3">
-        <a asp-controller="Incident" asp-action="List" asp-route-category="" class="btn @checkActiveCategory("")">
-            All incidents 
-        </a>
-        <a asp-controller="Incident" asp-action="List" asp-route-category="Unassigned" class="btn @checkActiveCategory("unassigned")">
-            Unassigned incidents
-        </a>
-        <a asp-controller="Incident" asp-action="List" asp-route-category="Open" class="btn @checkActiveCategory("open")">
-            Open incidents
-        </a>
-        <a asp-controller="Incident" asp-action="List" asp-route-category="Closed" class="btn @checkActiveCategory("closed")">
-            Closed incidents
-        </a>
-    </div>
 
-    @*    <div class="mb-3 mt-3">
-        <a asp-controller="Incident" asp-action="List" asp-route-category="" class="btn @checkActiveCategory("")">
+<ul class="nav nav-pills mb-3 mt-3">
+    <li class="nav-item">
+        <a asp-controller="Incident" asp-action="List" asp-route-category="" class="nav-link @checkActiveCategory("")">
             All incidents
         </a>
-        <a asp-controller="Incident" asp-action="List" asp-route-category="Unassigned" class="btn @checkActiveCategory("unassigned")">
+    </li>
+    <li class="nav-item">
+        <a asp-controller="Incident" asp-action="List" asp-route-category="Unassigned" class="nav-link  @checkActiveCategory("unassigned")">
             Unassigned incidents
         </a>
-        <a asp-controller="Incident" asp-action="List" asp-route-category="Open" class="btn @checkActiveCategory("open")">
+    </li>
+    <li class="nav-item">
+        <a asp-controller="Incident" asp-action="List" asp-route-category="Open" class="nav-link  @checkActiveCategory("open")">
             Open incidents
         </a>
-        <a asp-controller="Incident" asp-action="List" asp-route-category="Closed" class="btn @checkActiveCategory("closed")">
+    </li>
+    <li class="nav-item">
+        <a asp-controller="Incident" asp-action="List" asp-route-category="Closed" class="nav-link  @checkActiveCategory("closed")">
             Closed incidents
         </a>
-    </div>*@
-
+    </li>
+</ul>
+@if (Model.Incidents != null && Model.Incidents.Count > 0)
+{
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
@@ -87,12 +81,11 @@
                 </tr>
             }
         </tbody>
- 
     </table>
 }
 else
 {
-    <div>
+    <div class="m-3">
         No Incidents Found.
     </div>
 }
