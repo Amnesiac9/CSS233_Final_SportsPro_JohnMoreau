@@ -51,8 +51,8 @@
                     <td>@incident.Customer?.Name</td>
                     <td>@incident.Product?.Name</td>
                     <td>@incident.DateOpened?.Split(" ")[0]</td>
-                    <td><a class="btn btn-primary" asp-controller="Incident" asp-action="Edit" asp-route-id="@incident?.Id" asp-route-slug="@incident?.Slug">Edit</a></td>
-                    <td><a class="btn btn-primary" asp-controller="Incident" asp-action="Delete" asp-route-id="@incident?.Id" asp-route-slug="@incident?.Slug">Delete</a></td>
+                    <td><a class="btn btn-primary" asp-controller="Incident" asp-action="Edit" asp-route-id="@incident?.Id">Edit</a></td> @*asp-route-slug="@incident?.Slug"*@
+                    <td><a class="btn btn-primary" asp-controller="Incident" asp-action="Delete" asp-route-id="@incident?.Id">Delete</a></td> @*asp-route-slug="@incident?.Slug"*@
                 </tr>
             }
         </tbody>

@@ -41,6 +41,8 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Models
         public string? SortOrder { get; set; }
 
 
+        public string? Slug => CurrentTechnician?.Name?.Replace(' ', '-').ToLower();
+
         // Default
         public IncidentViewModel() { }
 

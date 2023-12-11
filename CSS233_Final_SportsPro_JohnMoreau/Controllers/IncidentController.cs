@@ -112,7 +112,7 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
 
 
 
-        [Route("Tech/Incidents")]
+        [Route("Tech/Incidents/{id?}")]
         public ActionResult TechIncident(IncidentSessionItems? sessionItems)
         {
 
@@ -130,10 +130,12 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
                 }
 
                 sessionItems = HttpContext.Session.GetObject<IncidentSessionItems>("SessionItems");
-                if (sessionItems == null)
-                {
-                    return View(incidentView);
-                }
+
+            }
+
+            if (sessionItems == null)
+            {
+                return View(incidentView);
             }
 
             // Set session state
@@ -143,14 +145,13 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
             incidentView.CurrentTechnician = Context.Technicians.Find(sessionItems?.Id);
             incidentView.Incidents = incidentView.GetSortedIncidentList(Context.Incidents.Include(c => c.Customer).Include(c => c.Product).Where(i => i.TechnicianId == sessionItems.Id).ToList());
 
-
             return View(incidentView);
         }
 
 
 
 
-        [Route("Tech/Incidents/Edit")]
+        [Route("Tech/Incidents/Edit/{id?}")]
         [HttpGet]
         public ActionResult TechEdit(int id)
         {
@@ -160,7 +161,7 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
             return View(incident);
         }
 
-        [Route("Tech/Incidents/Edit")]
+        [Route("Tech/Incidents/Edit/{id?}")]
         [HttpPost]
         public IActionResult TechEdit(Incident incident)
         {

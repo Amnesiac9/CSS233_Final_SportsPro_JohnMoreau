@@ -12,7 +12,7 @@
     @*<div asp-validation-summary="All" class="text-danger"></div>*@
     <div class="mb-3">
         <label class="form-label">Technician</label>
-        <select asp-for="CurrentTechnician.Id" name="Id" asp-items="@(new SelectList(Model.Technicians, "Id", "Name"))" class="form-select" id="technician-select">
+        <select asp-for="CurrentTechnician.Id" name="Id" asp-items="@(new SelectList(Model.Technicians, "Id", "Name"))" class="form-select" id="technician-select" >
             <option value=-2>Select a technician...</option>
         </select>
         <div class="text-danger">@Html.ValidationMessage("Id")</div>
@@ -69,7 +69,7 @@
                     <td>@incident.Customer?.Name</td>
                     <td>@incident.Product?.Name</td>
                     <td>@incident.DateOpened?.Split(" ")[0]</td>
-                    <td><a class="btn btn-primary" asp-controller="Incident" asp-action="TechEdit" asp-route-id="@incident?.Id" asp-route-slug="@incident?.Slug">Edit</a></td>
+                    <td><a class="btn btn-primary" asp-controller="Incident" asp-action="TechEdit" asp-route-id="@incident?.Id">Edit</a></td> @*asp-route-slug="@incident?.Slug"*@
                 </tr>
             }
         </tbody>
