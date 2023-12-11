@@ -8,7 +8,7 @@
     ViewData["Title"] = "Registrations";
 }
 @*Check if we have any values in our model*@
-@if (Model.Customer?.Registrations != null && Model.Customer?.Registrations.Count > 0)
+@if (Model.Customer?.Registrations != null) @*&& Model.Customer?.Registrations.Count > 0*@
 {
     <h2>Customer: @Model.Customer.Name</h2>
 
@@ -33,7 +33,7 @@
             {
                 <tr>
                     <td>@reg.Product?.Name</td>
-                    <td><a class="btn btn-primary" asp-controller="Registration" asp-action="DeleteProduct" asp-route-id="@reg.Product?.Id">Delete</a></td> @*asp-route-slug="@incident?.Slug"*@
+                    <td><a class="btn btn-primary" asp-controller="Registration" asp-action="Delete" asp-route-CurrentProductId="@reg.Product?.Id" asp-route-CurrentCustomerId="@Model.CurrentCustomerId">Delete</a></td> @*asp-route-slug="@incident?.Slug"*@
                 </tr>
             }
         </tbody>
@@ -50,16 +50,23 @@ else
 {
     <h1>Product</h1>
     <div asp-validation-summary="All" class="text-danger"></div>
+
     <form asp-controller="Registration" asp-action="RegisterItem" method="post">
         <div class="mb-3">
             @*<label class="form-label">Customer</label>*@
-            <select name="id" asp-for="CurrentProductId" asp-items="@(new SelectList(Model.Products, "Id", "Name"))" class="form-select">
+            <select asp-for="CurrentProductId" asp-items="@(new SelectList(Model.Products, "Id", "Name"))" class="form-select">
                 <option value=0>Select a Product...</option>
             </select>
             <div class="text-danger">@Html.ValidationMessage("CurrentProductId")</div>
         </div>
         <div class="mb-3">
             <button type="submit" class="btn btn-primary">Register</button>
+            <a asp-controller="Registration" asp-action="GetCustomer"
+               class="btn btn-primary">Back</a>
         </div>
+
+        <input type="hidden" asp-for="CurrentCustomerId" />
+
     </form>
+
 }

@@ -4,16 +4,19 @@ using CSS233_Final_SportsPro_JohnMoreau.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace CSS233_Final_SportsPro_JohnMoreau.Migrations
+namespace john_moreau_MidTerm.Migrations
 {
     [DbContext(typeof(SportsContext))]
-    partial class SportsContextModelSnapshot : ModelSnapshot
+    [Migration("20231211082625_AddingRegistrations")]
+    partial class AddingRegistrations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

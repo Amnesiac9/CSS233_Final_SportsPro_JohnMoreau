@@ -67,6 +67,6 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Models
 
         //public List<Product>? Products { get; set; }
 
-        public ICollection<Registration>? Registrations { get; set; }
+        public ICollection<Registration>? Registrations { get; set; } 
     }
 }

@@ -17,6 +17,8 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Models
 
         public DbSet<Incident> Incidents { get; set; } = null!;
 
+        public DbSet<Registration> Registrations { get; set; } = null!;
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
