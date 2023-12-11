@@ -29,7 +29,7 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Models
         
         public Incident? CurrentIncident { get; set; }
 
-
+        
         public Technician? CurrentTechnician { get; set; }
 
         public string? IncidentFilter { get; set; }

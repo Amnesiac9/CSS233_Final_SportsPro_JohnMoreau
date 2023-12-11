@@ -9,12 +9,13 @@
 }
 <h1>Technician Incident Manager</h1>
 <form asp-controller="Incident" asp-action="TechIncident" method="post">
+    @*<div asp-validation-summary="All" class="text-danger"></div>*@
     <div class="mb-3">
         <label class="form-label">Technician</label>
-        <select asp-for="CurrentTechnician.Id" name="id" asp-items="@(new SelectList(Model.Technicians, "Id", "Name"))" class="form-select" id="technician-select">
-            <option value=0>Select a technician...</option>
+        <select asp-for="CurrentTechnician.Id" name="Id" asp-items="@(new SelectList(Model.Technicians, "Id", "Name"))" class="form-select" id="technician-select">
+            <option value=-2>Select a technician...</option>
         </select>
-        <div class="text-danger">@Html.ValidationMessage("CurrentTechnician.Id")</div>
+        <div class="text-danger">@Html.ValidationMessage("Id")</div>
     </div>
     <div class="mb-3">
         <button type="submit" class="btn btn-primary">Load Incidents</button>

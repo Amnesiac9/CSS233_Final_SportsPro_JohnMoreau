@@ -111,8 +111,9 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
         }
 
 
+
         [Route("Tech/Incidents")]
-        public ActionResult TechIncident(string sortBy, string sortOrder, int id)
+        public ActionResult TechIncident(IncidentSessionItems? sessionItems)
         {
 
             var incidentView = new IncidentViewModel
@@ -120,29 +121,29 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
                 Technicians = Context.Technicians.ToList()
             };
 
-            // Get session state.
-            if (id == 0)
+            if (!ModelState.IsValid || sessionItems?.Id == 0)
             {
-                var sessionItems = HttpContext.Session.GetObject<SessionItems>("SessionItems");
-                if (sessionItems != null)
+                // Our default option needs to be below -1 to allow for a range of -1 to int.maxvalue, so that we can include Unassigned in our select box. (id = -1)
+                if(sessionItems?.Id == -2)
                 {
-                    sortBy = sessionItems.SortBy;
-                    sortOrder = sessionItems.SortOrder;
-                    id = sessionItems.CurrentTechnicianId;
+                    return View(incidentView);
+                }
+
+                sessionItems = HttpContext.Session.GetObject<IncidentSessionItems>("SessionItems");
+                if (sessionItems == null)
+                {
+                    return View(incidentView);
                 }
             }
-            
-            if (id != 0)
-            {
 
-                // Set session state
-                HttpContext.Session.SetObject("SessionItems", new SessionItems(sortBy, sortOrder, id));
+            // Set session state
+            HttpContext.Session.SetObject("SessionItems", sessionItems);
+            incidentView.SortBy = sessionItems?.SortBy;
+            incidentView.SortOrder = sessionItems?.SortOrder;
+            incidentView.CurrentTechnician = Context.Technicians.Find(sessionItems?.Id);
+            incidentView.Incidents = incidentView.GetSortedIncidentList(Context.Incidents.Include(c => c.Customer).Include(c => c.Product).Where(i => i.TechnicianId == sessionItems.Id).ToList());
 
-                incidentView.SortBy = sortBy;
-                incidentView.SortOrder = sortOrder;
-                incidentView.CurrentTechnician = Context.Technicians.Find(id);
-                incidentView.Incidents = incidentView.GetSortedIncidentList(Context.Incidents.Include(c => c.Customer).Include(c => c.Product).Where(i => i.TechnicianId == id).ToList());
-            }
+
             return View(incidentView);
         }
 
@@ -181,10 +182,10 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
                 Context.SaveChanges();
 
                 // Get and set session
-                var sessionItems = HttpContext.Session.GetObject<SessionItems>("SessionItems");
+                var sessionItems = HttpContext.Session.GetObject<IncidentSessionItems>("SessionItems");
                 if (sessionItems != null && incident?.TechnicianId != null)
                 {
-                    sessionItems.CurrentTechnicianId = incident.TechnicianId;
+                    sessionItems.Id = incident.TechnicianId;
                     HttpContext.Session.SetObject("SessionItems", sessionItems);
                 }
 
