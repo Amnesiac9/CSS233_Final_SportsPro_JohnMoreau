@@ -20,25 +20,24 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
         private SportsContext Context { get; set; }
         public IncidentController(SportsContext ctx) => Context = ctx;
 
-        [Route("Incidents")]
-        public ActionResult List(string sortBy, string sortOrder)
+        [Route("Incidents/{category?}")]
+        public ActionResult List(string category, string sortBy, string sortOrder)
         {
-            var incidents = Context.Incidents.Include(c => c.Customer).Include(c => c.Product);
-            var incidentView = new IncidentViewModel(sortBy, sortOrder, incidents);
+            category ??= ""; // If null, become empty string
+
+            List<Incident> incidents = category switch
+            {
+                "unassigned" => Context.Incidents.Include(c => c.Customer).Include(c => c.Product).Where(i => i.TechnicianId == 0).ToList(),
+                "open" => Context.Incidents.Include(c => c.Customer).Include(c => c.Product).Where(i => i.DateClosed == null).ToList(),
+                "closed" => Context.Incidents.Include(c => c.Customer).Include(c => c.Product).Where(i => i.DateClosed != null).ToList(),
+                _ => Context.Incidents.Include(c => c.Customer).Include(c => c.Product).ToList(),
+            };
+
+
+            //var incidents = Context.Incidents.Include(c => c.Customer).Include(c => c.Product).Where(i => i.DateClosed == null).ToList();
+            var incidentView = new IncidentViewModel(category, sortBy, sortOrder, incidents);
             return View(incidentView);
         }
-
-        // No Longer Needed
-        //[HttpGet]
-        //public ActionResult Add()
-        //{
-
-        //    ViewBag.Customers = Context.Customers.ToList();
-        //    ViewBag.Products = Context.Products.ToList();
-        //    ViewBag.Technicians = Context.Technicians.ToList();
-        //    ViewBag.Action = "Add";
-        //    return View("Edit", new Incident());
-        //}
 
         [HttpGet]
         public ActionResult Edit(int id)

@@ -43,26 +43,20 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Models
 
         public string? SortOrder { get; set; }
 
+        public string Category { get; set; } = string.Empty;
+
 
         public string? Slug => CurrentTechnician?.Name?.Replace(' ', '-').ToLower();
 
         // Default
         public IncidentViewModel() { }
 
-        // Sort By Constructor
-        public IncidentViewModel(string sortBy, string sortOrder, IIncludableQueryable<Incident, Product?> incidents)
-        {
-            SortBy = sortBy;
-            SortOrder = sortOrder;
-            Incidents = GetSortedIncidentList(incidents);
-        }
 
-        public IncidentViewModel(string sortBy, string sortOrder, Technician currentTech, List<Technician> technicians, List<Incident> incidents)
+        public IncidentViewModel(string category, string sortBy, string sortOrder, List<Incident> incidents)
         {
+            Category = category;
             SortBy = sortBy;
             SortOrder = sortOrder;
-            CurrentTechnician = currentTech;
-            Technicians = technicians;
             Incidents = GetSortedIncidentList(incidents);
         }
 

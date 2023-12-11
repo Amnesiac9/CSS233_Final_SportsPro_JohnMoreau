@@ -29,43 +29,44 @@
 @if (Model.CurrentTechnician != null && Model.Incidents != null && Model.Incidents.Count > 0)
 {
     <h2>Technician: @Model.CurrentTechnician.Name</h2>
-    <h3 class="mt-4">Assigned/Open Incidents</h3>
 
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>
-                    Title
-                    <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="TechIncident" asp-route-sortBy="@Model.GetSortBy("Title")" asp-route-sortOrder="@Model.GetNewSortOrder("Title")" class="sort-button">
-                        <span class="sort-icon fas @Model.GetSortIcon("Title")" style="margin-left: 5px;"></span>
-                    </a>
-                </th>
-                <th>
-                    Customer
-                    <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="TechIncident" asp-route-sortBy="@Model.GetSortBy("Customer")" asp-route-sortOrder="@Model.GetNewSortOrder("Customer")" class="sort-button">
-                        <span class="sort-icon fas @Model.GetSortIcon("Customer")" style="margin-left: 5px;"></span>
-                    </a>
-                </th>
-                <th>
-                    Product
-                    <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="TechIncident" asp-route-sortBy="@Model.GetSortBy("Product")" asp-route-sortOrder="@Model.GetNewSortOrder("Product")" class="sort-button">
-                        <span class="sort-icon fas @Model.GetSortIcon("Product")" style="margin-left: 5px;"></span>
-                    </a>
-                </th>
-                <th>
-                    Date Opened
-                    <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="TechIncident" asp-route-sortBy="@Model.GetSortBy("DateOpened")" asp-route-sortOrder="@Model.GetNewSortOrder("DateOpened")" class="sort-button">
-                        <span class="sort-icon fas @Model.GetSortIcon("DateOpened")" style="margin-left: 5px;"></span>
-                    </a>
-                </th>
-                <th>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var incident in Model.Incidents)
-            {
-                if (incident.DateClosed == null)
+    if (Model.OpenIncidents != null)
+    {
+        <h3 class="mt-4">Assigned/Open Incidents</h3>
+
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-4">
+                        Title
+                        <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="TechIncident" asp-route-sortBy="@Model.GetSortBy("Title")" asp-route-sortOrder="@Model.GetNewSortOrder("Title")" class="sort-button">
+                            <span class="sort-icon fas @Model.GetSortIcon("Title")" style="margin-left: 5px;"></span>
+                        </a>
+                    </th>
+                    <th class="col-2">
+                        Customer
+                        <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="TechIncident" asp-route-sortBy="@Model.GetSortBy("Customer")" asp-route-sortOrder="@Model.GetNewSortOrder("Customer")" class="sort-button">
+                            <span class="sort-icon fas @Model.GetSortIcon("Customer")" style="margin-left: 5px;"></span>
+                        </a>
+                    </th>
+                    <th class="col-3">
+                        Product
+                        <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="TechIncident" asp-route-sortBy="@Model.GetSortBy("Product")" asp-route-sortOrder="@Model.GetNewSortOrder("Product")" class="sort-button">
+                            <span class="sort-icon fas @Model.GetSortIcon("Product")" style="margin-left: 5px;"></span>
+                        </a>
+                    </th>
+                    <th class="col-2">
+                        Date Opened
+                        <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="TechIncident" asp-route-sortBy="@Model.GetSortBy("DateOpened")" asp-route-sortOrder="@Model.GetNewSortOrder("DateOpened")" class="sort-button">
+                            <span class="sort-icon fas @Model.GetSortIcon("DateOpened")" style="margin-left: 5px;"></span>
+                        </a>
+                    </th>
+                    <th class="col-1">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var incident in Model.OpenIncidents)
                 {
                     <tr>
                         <td>@incident.Title</td>
@@ -75,32 +76,49 @@
                         <td><a class="btn btn-primary" asp-controller="Incident" asp-action="TechEdit" asp-route-id="@incident?.Id">Edit</a></td> @*asp-route-slug="@incident?.Slug"*@
                     </tr>
                 }
-            }
-        </tbody>
-    </table>
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>
-                    Title
-                </th>
-                <th>
-                    Customer
-                </th>
-                <th>
-                    Product
-                </th>
-                <th>
-                    Date Opened
-                </th>
-                <th>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var incident in Model.Incidents)
-            {
-                if(incident.DateClosed != null)
+            </tbody>
+        </table>
+    }
+
+    if (Model.ClosedIncidents != null && Model.ClosedIncidents.Count > 0)
+    {
+        <h3 class="mt-4">Closed Incidents</h3>
+
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-4">
+                        Title
+                        <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="TechIncident" asp-route-sortBy="@Model.GetSortBy("Title")" asp-route-sortOrder="@Model.GetNewSortOrder("Title")" class="sort-button">
+                            <span class="sort-icon fas @Model.GetSortIcon("Title")" style="margin-left: 5px;"></span>
+                        </a>
+                    </th>
+                    <th class="col-2">
+                        Customer
+                        <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="TechIncident" asp-route-sortBy="@Model.GetSortBy("Customer")" asp-route-sortOrder="@Model.GetNewSortOrder("Customer")" class="sort-button">
+                            <span class="sort-icon fas @Model.GetSortIcon("Customer")" style="margin-left: 5px;"></span>
+                        </a>
+                    </th>
+                    <th class="col-3">
+                        Product
+                        <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="TechIncident" asp-route-sortBy="@Model.GetSortBy("Product")" asp-route-sortOrder="@Model.GetNewSortOrder("Product")" class="sort-button">
+                            <span class="sort-icon fas @Model.GetSortIcon("Product")" style="margin-left: 5px;"></span>
+                        </a>
+                    </th>
+                    <th class="col-2">
+                        Date Opened
+                        <a asp-route-id="@Model.CurrentTechnician.Id" asp-controller="Incident" asp-action="TechIncident" asp-route-sortBy="@Model.GetSortBy("DateOpened")" asp-route-sortOrder="@Model.GetNewSortOrder("DateOpened")" class="sort-button">
+                            <span class="sort-icon fas @Model.GetSortIcon("DateOpened")" style="margin-left: 5px;"></span>
+                        </a>
+                    </th>
+                    <th class="col-1">
+                    </th>
+                </tr>
+            </thead>
+    
+
+            <tbody>
+                @foreach (var incident in Model.ClosedIncidents)
                 {
                     <tr>
                         <td>@incident.Title</td>
@@ -110,11 +128,11 @@
                         <td><a class="btn btn-primary" asp-controller="Incident" asp-action="TechEdit" asp-route-id="@incident?.Id">Edit</a></td> @*asp-route-slug="@incident?.Slug"*@
                     </tr>
                 }
-            }
-        </tbody>
-    </table>
-
-} else
+            </tbody>
+        </table>
+    }
+} 
+else
 {
     @if(Model.CurrentTechnician != null && Model?.CurrentTechnician?.Id != 0)
     {
