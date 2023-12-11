@@ -195,7 +195,7 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
             else
             {
                 ViewBag.Action = "Edit";
-                return View(incident.Id);
+                return View(incident);
 
             }
         }

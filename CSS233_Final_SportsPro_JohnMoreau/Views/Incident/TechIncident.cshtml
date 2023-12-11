@@ -6,13 +6,14 @@
 @model IncidentViewModel
 @{
     ViewData["Title"] = "TechIncMgr";
+    var currentTechId = Model.CurrentTechnician?.Id; @*To avoid possible null warning*@
 }
 <h1>Technician Incident Manager</h1>
 <form asp-controller="Incident" asp-action="TechIncident" method="post">
     @*<div asp-validation-summary="All" class="text-danger"></div>*@
     <div class="mb-3">
         <label class="form-label">Technician</label>
-        <select asp-for="CurrentTechnician.Id" name="Id" asp-items="@(new SelectList(Model.Technicians, "Id", "Name"))" class="form-select" id="technician-select" >
+        <select name="Id" asp-for="@currentTechId" asp-items="@(new SelectList(Model.Technicians, "Id", "Name"))" class="form-select" id="technician-select">
             <option value=-2>Select a technician...</option>
         </select>
         <div class="text-danger">@Html.ValidationMessage("Id")</div>
@@ -28,7 +29,7 @@
 @if (Model.CurrentTechnician != null && Model.Incidents != null && Model.Incidents.Count > 0)
 {
     <h2>Technician: @Model.CurrentTechnician.Name</h2>
-    <h3>Assigned/Open Incidents</h3>
+    <h3 class="mt-4">Assigned/Open Incidents</h3>
 
     <table class="table table-striped table-bordered">
         <thead>
@@ -64,16 +65,55 @@
         <tbody>
             @foreach (var incident in Model.Incidents)
             {
-                <tr>
-                    <td>@incident.Title</td>
-                    <td>@incident.Customer?.Name</td>
-                    <td>@incident.Product?.Name</td>
-                    <td>@incident.DateOpened?.Split(" ")[0]</td>
-                    <td><a class="btn btn-primary" asp-controller="Incident" asp-action="TechEdit" asp-route-id="@incident?.Id">Edit</a></td> @*asp-route-slug="@incident?.Slug"*@
-                </tr>
+                if (incident.DateClosed == null)
+                {
+                    <tr>
+                        <td>@incident.Title</td>
+                        <td>@incident.Customer?.Name</td>
+                        <td>@incident.Product?.Name</td>
+                        <td>@incident.DateOpened?.Split(" ")[0]</td>
+                        <td><a class="btn btn-primary" asp-controller="Incident" asp-action="TechEdit" asp-route-id="@incident?.Id">Edit</a></td> @*asp-route-slug="@incident?.Slug"*@
+                    </tr>
+                }
             }
         </tbody>
     </table>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Customer
+                </th>
+                <th>
+                    Product
+                </th>
+                <th>
+                    Date Opened
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var incident in Model.Incidents)
+            {
+                if(incident.DateClosed != null)
+                {
+                    <tr>
+                        <td>@incident.Title</td>
+                        <td>@incident.Customer?.Name</td>
+                        <td>@incident.Product?.Name</td>
+                        <td>@incident.DateOpened?.Split(" ")[0]</td>
+                        <td><a class="btn btn-primary" asp-controller="Incident" asp-action="TechEdit" asp-route-id="@incident?.Id">Edit</a></td> @*asp-route-slug="@incident?.Slug"*@
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
 } else
 {
     @if(Model.CurrentTechnician != null && Model?.CurrentTechnician?.Id != 0)

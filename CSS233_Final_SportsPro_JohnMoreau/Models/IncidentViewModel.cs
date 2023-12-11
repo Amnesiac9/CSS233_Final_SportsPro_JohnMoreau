@@ -20,6 +20,9 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Models
     {
         public List<Incident>? Incidents { get; set; }
 
+        public List<Incident>? ClosedIncidents => Incidents?.Where(incident => incident.DateClosed != null).ToList();
+        public List<Incident>? OpenIncidents => Incidents?.Where(incident => incident.DateClosed == null).ToList();
+
         public List<Product>? Products { get; set; }
 
         public List<Customer>? Customers { get; set; }
