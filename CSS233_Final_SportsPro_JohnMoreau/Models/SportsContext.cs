@@ -20,6 +20,21 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<Registration>()
+            .HasKey(r => new { r.CustomerId, r.ProductId });
+
+            modelBuilder.Entity<Registration>()
+                .HasOne(r => r.Customer)
+                .WithMany(c => c.Registrations)
+                .HasForeignKey(r => r.CustomerId);
+
+            modelBuilder.Entity<Registration>()
+                .HasOne(r => r.Product)
+                .WithMany(p => p.Registrations)
+                .HasForeignKey(r => r.ProductId);
+
+
             modelBuilder.Entity<Product>().HasData(
             new Product
             {

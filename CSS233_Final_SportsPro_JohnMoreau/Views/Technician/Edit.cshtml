@@ -6,26 +6,48 @@
 *@
 @model Technician
 @{
+    string isInvalid(string str) => ViewData.ModelState.GetFieldValidationState(str) == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid ? "is-invalid" : ""; // WHY IS THIS SO HARD?
     string title = ViewBag.Action + " Technician";
     ViewData["Title"] = title;
 }
 <h2>@title</h2>
 <form asp-controller="Technician" asp-action="Edit" method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
+    @*<div asp-validation-summary="All" class="text-danger"></div>*@
 
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label">Name</label>
-        <input asp-for="Name" class="form-control">
+    <div class="row mb-3">
+        <div class="col-2 mt-1">
+            <label asp-for="Name" class="form-label">Name</label>
+        </div>
+        <div class="col-5">
+            <input asp-for="Name" class="form-control @isInvalid("Name")">
+        </div>
+        <div class="text-danger col-5">
+            @Html.ValidationMessage("Name")
+        </div>
     </div>
 
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label">Email</label>
-        <input asp-for="Email" class="form-control" type="email">
+    <div class="row mb-3">
+        <div class="col-2 mt-1">
+            <label asp-for="Email" class="form-label">Email</label>
+        </div>
+        <div class="col-5">
+            <input asp-for="Email" class="form-control @isInvalid("Email")" type="email">
+        </div>
+        <div class="text-danger col-5">
+            @Html.ValidationMessage("Email")
+        </div>
     </div>
 
-    <div class="mb-3">
-        <label asp-for="Phone" class="form-label">Phone</label>
-        <input asp-for="Phone" class="form-control" >
+    <div class="row mb-3">
+        <div class="col-2 mt-1">
+            <label asp-for="Phone" class="form-label">Phone</label>
+        </div>
+        <div class="col-5">
+            <input asp-for="Phone" class="form-control @isInvalid("Phone")" type="tel">
+        </div>
+        <div class="text-danger col-5">
+            @Html.ValidationMessage("Phone")
+        </div>
     </div>
 
     <input type="hidden" asp-for="Id" />

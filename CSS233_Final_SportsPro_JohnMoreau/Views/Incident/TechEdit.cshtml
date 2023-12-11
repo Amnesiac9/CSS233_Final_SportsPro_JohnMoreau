@@ -6,11 +6,12 @@
 *@
 @model Incident
 @{
+    string isInvalid(string str) => ViewData.ModelState.GetFieldValidationState(str) == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid ? "is-invalid" : ""; // WHY IS THIS SO HARD?
     ViewData["Title"] = ViewBag.Action + " TechIncMgr";
 }
 <h2>@(ViewBag.Action + " Incident")</h2>
 <form asp-controller="Incident" asp-action="TechEdit" method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
+    @*<div asp-validation-summary="All" class="text-danger"></div>*@
 
     <div class="row mb-3">
         <div class="col-2 mt-1">
@@ -81,7 +82,7 @@
             <label asp-for="Description" class="form-label">Description</label>
         </div>
         <div class="col-5 mt-1">
-            <textarea asp-for="Description" class="form-control" type="text"></textarea>
+            <textarea asp-for="Description" class="form-control @isInvalid("Description")" type="text"></textarea>
         </div>
         <div class="col-5 text-danger">
             @Html.ValidationMessage("Description")

@@ -6,6 +6,7 @@
 *@
 @model IncidentViewModel
 @{
+    string isInvalid(string str) => ViewData.ModelState.GetFieldValidationState(str) == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid ? "is-invalid" : ""; // WHY IS THIS SO HARD?
     string editDisabledCheck = Model.CurrentAction == "Edit" ? "disabled" : "";
     string title = Model.CurrentAction + " Incident";
     ViewData["Title"] = title;
@@ -15,19 +16,19 @@
 @if(Model.CurrentIncident != null)
 {
     <form asp-controller="Incident" asp-action="Edit" method="post">
-        <div asp-validation-summary="All" class="text-danger"></div>
+        @*<div asp-validation-summary="All" class="text-danger"></div>*@
 
         <div class="row mb-3">
             <div class="col-2 mt-1">
                 <label asp-for="@Model.CurrentIncident.CustomerId" class="form-label">Customer</label>
             </div>
             <div class="col-5">
-                <select asp-for="@Model.CurrentIncident.CustomerId" asp-items="@(new SelectList(@Model.Customers, "Id", "Name"))" class="form-select">
+                <select asp-for="@Model.CurrentIncident.CustomerId" asp-items="@(new SelectList(@Model.Customers, "Id", "Name"))" class="form-select @isInvalid("CurrentIncident.CustomerId")">
                     <option value=0>Select a customer...</option>
                 </select>
             </div>
             <div class="col-5 text-danger">
-                @Html.ValidationMessage("CurrentCustomerId")
+                @Html.ValidationMessage("CurrentIncident.CustomerId")
             </div>
         </div>
 
@@ -36,7 +37,7 @@
                 <label asp-for="@Model.CurrentIncident.ProductId" class="form-label">Product</label>
             </div>
             <div class="col-5">
-                <select asp-for="@Model.CurrentIncident.ProductId" asp-items="@(new SelectList(@Model.Products, "Id", "Name"))" class="form-select">
+                <select asp-for="@Model.CurrentIncident.ProductId" asp-items="@(new SelectList(@Model.Products, "Id", "Name"))" class="form-select @isInvalid("CurrentIncident.ProductId")">
                     <option value=0>Select a Product...</option>
                 </select>
             </div>
@@ -50,7 +51,7 @@
                 <label asp-for="@Model.CurrentIncident.Title" class="form-label">Title</label>
             </div>
             <div class="col-5">
-                <input asp-for="@Model.CurrentIncident.Title" class="form-control">
+                <input asp-for="@Model.CurrentIncident.Title" class="form-control @isInvalid("CurrentIncident.Title")">
             </div>
             <div class="col-5 text-danger">
                 @Html.ValidationMessage("CurrentIncident.Title")
@@ -62,7 +63,7 @@
                 <label asp-for="@Model.CurrentIncident.Description" class="form-label">Description</label>
             </div>
             <div class="col-5">
-                <textarea asp-for="@Model.CurrentIncident.Description" class="form-control" type="text"></textarea>
+                <textarea asp-for="@Model.CurrentIncident.Description" class="form-control @isInvalid("CurrentIncident.Description")" type="text"></textarea>
             </div>
             <div class="col-5 text-danger">
                 @Html.ValidationMessage("CurrentIncident.Description")
@@ -74,7 +75,7 @@
                 <label asp-for="@Model.CurrentIncident.TechnicianId" class="form-label">Technician</label>
             </div>
             <div class="col-5">
-                <select asp-for="@Model.CurrentIncident.TechnicianId" asp-items="@(new SelectList(@Model.Technicians, "Id", "Name"))" class="form-select">
+                <select asp-for="@Model.CurrentIncident.TechnicianId" asp-items="@(new SelectList(@Model.Technicians, "Id", "Name"))" class="form-select @isInvalid("CurrentIncident.TechnicianId")">
                     <option value=0>Choose a technician...</option>
                 </select>
             </div>
@@ -88,7 +89,7 @@
                 <label asp-for="@Model.CurrentIncident.DateOpened" class="form-label">Date Opened</label>
             </div>
             <div class="col-5">
-                <input asp-for="@Model.CurrentIncident.DateOpened" class="form-control" value="@(@Model.CurrentIncident?.DateOpened == string.Empty ? DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt") : @Model.CurrentIncident?.DateOpened)" disabled> @* disabled doesn't submit any value...*@
+                <input asp-for="@Model.CurrentIncident.DateOpened" class="form-control @isInvalid("CurrentIncident.DateOpened")" value="@(@Model.CurrentIncident?.DateOpened == string.Empty ? DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt") : @Model.CurrentIncident?.DateOpened)" disabled> @* disabled doesn't submit any value...*@
             </div>
             <div class="col-5 text-danger">
                 @Html.ValidationMessage("CurrentIncident.DateOpened")

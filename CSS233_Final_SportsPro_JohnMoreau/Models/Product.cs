@@ -40,5 +40,7 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Models
 
 
         public string? Slug => Name?.Replace(' ', '-').ToLower();
+
+        public ICollection<Registration>? Registrations { get; set; }
     }
 }

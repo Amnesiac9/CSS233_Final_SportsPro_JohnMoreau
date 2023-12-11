@@ -85,7 +85,6 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
 
                 if (customer.Id == 0)
                 {
-                    //customer.DateAdded = DateTime.Now.ToString("MM/dd/yyyy 'at' h:mm tt");
                     Context.Customers.Add(customer);
                     TempData["SuccessMessage"] = customer.Name + " has been added.";
                 }

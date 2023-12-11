@@ -1,5 +1,4 @@
-﻿
-@*
+﻿@*
 * John Moreau
 * CSS233
 * 12/9/2023
@@ -106,7 +105,7 @@
             <label asp-for="Email" class="form-label">Email</label>
         </div>
         <div class="col-5">
-            <input asp-for="Email" class="form-control @isInvalid("Email")" type="email">
+            <input asp-for="Email" class="form-control @isInvalid("Email")" type="text" id="email-input">
         </div>
         <div class="col-5 text-danger">
             @Html.ValidationMessage("Email")
@@ -118,7 +117,7 @@
             <label asp-for="Phone" class="form-label">Phone</label>
         </div>
         <div class="col-5">
-            <input asp-for="Phone" class="form-control @isInvalid("Phone")" type="tel">
+            <input asp-for="Phone" class="form-control @isInvalid("Phone")" id="phone-input">
         </div>
         <div class="col-5 text-danger">
             @Html.ValidationMessage("Phone")
@@ -130,7 +129,7 @@
     <input type="hidden" asp-for="DateAdded" value="@(Model.DateAdded == string.Empty ? DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt") : Model.DateAdded)" />
 
     <div class="mb-3">
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button onclick="updatePhoneNumber('phone-input')" type="submit" class="btn btn-primary">Save</button>
         <a asp-controller="Customer" asp-action="List" asp-route-id="@Model?.Id"
            class="btn btn-primary">Cancel</a>
     </div>
