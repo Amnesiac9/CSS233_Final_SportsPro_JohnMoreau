@@ -6,7 +6,7 @@
 *@
 @model Incident
 @{
-    string isInvalid(string str) => ViewData.ModelState.GetFieldValidationState(str) == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid ? "is-invalid" : ""; // WHY IS THIS SO HARD?
+    string isInvalid(string str) => ViewData.ModelState.GetFieldValidationState(str) == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid ? "is-invalid" : ""; // Source: https://stackoverflow.com/questions/39028177/how-to-check-in-razor-view-if-field-is-valid
     ViewData["Title"] = ViewBag.Action + " TechIncMgr";
 }
 <h2>@(ViewBag.Action + " Incident")</h2>

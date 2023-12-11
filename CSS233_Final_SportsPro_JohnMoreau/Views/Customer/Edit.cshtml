@@ -7,7 +7,7 @@
 @{
     string title = ViewBag.Action + " Customer";
     ViewData["Title"] = title;
-    string isInvalid(string str) => ViewData.ModelState.GetFieldValidationState(str) == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid ? "is-invalid" : ""; // WHY IS THIS SO HARD?
+    string isInvalid(string str) => ViewData.ModelState.GetFieldValidationState(str) == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid ? "is-invalid" : ""; // Source: https://stackoverflow.com/questions/39028177/how-to-check-in-razor-view-if-field-is-valid
 }
 <h2>@title</h2>
 <form asp-controller="Customer" asp-action="Edit" method="post" class="needs-validation">
