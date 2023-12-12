@@ -8,20 +8,19 @@
     ViewData["Title"] = "Registrations";
 }
 @*Check if we have any values in our model*@
-@if (Model.Customer?.Registrations != null) @*&& Model.Customer?.Registrations.Count > 0*@
+<h2>Customer: @Model.Customer?.Name</h2>
+<h3 class="mt-4">Registrations</h3>
+@if (Model.Customer?.Registrations != null && Model.Customer?.Registrations.Count > 0) @**@
 {
-    <h2>Customer: @Model.Customer.Name</h2>
 
-    
-    <h3 class="mt-4">Registrations</h3>
 
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th class="col-4">
                     Product
-                    <a asp-route-id="@Model.CurrentCustomerId" asp-controller="Registration" asp-action="GetCustomer" asp-route-sortBy="@Model.GetSortBy("Title")" asp-route-sortOrder="@Model.GetNewSortOrder("Title")" class="sort-button">
-                        <span class="sort-icon fas @Model.GetSortIcon("Title")" style="margin-left: 5px;"></span>
+                    <a asp-controller="Registration" asp-action="GetItems" asp-route-CurrentCustomerId="@Model.CurrentCustomerId" asp-route-CurrentProductId="0" asp-route-sortBy="@Model.GetSortBy("Product")" asp-route-sortOrder="@Model.GetNewSortOrder("Product")" class="sort-button">
+                        <span class="sort-icon fas @Model.GetSortIcon("Product")" style="margin-left: 5px;"></span>
                     </a>
                 </th>
                 <th class="col-1">
@@ -42,22 +41,24 @@
 else
 {
     <div class="mb-3">
-        <p>No Registrations Found</p>
+        <p>No Registrations Found. Try adding one below!</p>
     </div>
 }
 
 @if(Model.Products != null)
 {
     <h1>Product</h1>
-    <div asp-validation-summary="All" class="text-danger"></div>
+    @*<div asp-validation-summary="All" class="text-danger"></div>*@
 
     <form asp-controller="Registration" asp-action="RegisterItem" method="post">
-        <div class="mb-3">
-            @*<label class="form-label">Customer</label>*@
-            <select asp-for="CurrentProductId" asp-items="@(new SelectList(Model.Products, "Id", "Name"))" class="form-select">
-                <option value=0>Select a Product...</option>
-            </select>
-            <div class="text-danger">@Html.ValidationMessage("CurrentProductId")</div>
+        <div class="row mb-3">
+            @*<label class="form-label">Product</label>*@
+            <div class="col-6">
+                <select asp-for="CurrentProductId" asp-items="@(new SelectList(Model.Products, "Id", "Name"))" class="form-select">
+                    <option value=-1>Select a Product...</option>
+                </select>
+                <div class="text-danger">@Html.ValidationMessage("CurrentProductId")</div>
+            </div>
         </div>
         <div class="mb-3">
             <button type="submit" class="btn btn-primary">Register</button>

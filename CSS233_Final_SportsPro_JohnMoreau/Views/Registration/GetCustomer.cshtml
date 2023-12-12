@@ -10,17 +10,22 @@
 <h1>Get Customer</h1>
 @*<div asp-validation-summary="All" class="text-danger"></div>*@
 <form asp-controller="Registration" asp-action="GetItems" method="post">
-    <div class="mb-3">
-        @*<label class="form-label">Customer</label>*@
-        <select asp-for="CurrentCustomerId" asp-items="@(new SelectList(Model.Customers, "Id", "Name"))" class="form-select">
-            <option value=-2>Select a customer...</option>
-        </select>
-        <div class="text-danger">@Html.ValidationMessage("CurrentCustomerId")</div>
+    <div class="row mb-3">
+        <div class="col-6">
+            @*<label class="form-label">Customer</label>*@
+            <select asp-for="CurrentCustomerId" asp-items="@(new SelectList(Model.Customers, "Id", "Name"))" class="form-select">
+                <option value=-2>Select a customer...</option>
+            </select>
+            <div class="text-danger">@Html.ValidationMessage("CurrentCustomerId")</div>
+        </div>
     </div>
     <div class="mb-3">
         <button type="submit" class="btn btn-primary">Select</button>
         <a asp-controller="Home" asp-action="Index"
            class="btn btn-primary">Back</a>
     </div>
+
+    <input type="hidden" asp-for="CurrentProductId" value="0" />
+
 </form>
 

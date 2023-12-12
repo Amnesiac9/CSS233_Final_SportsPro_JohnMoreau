@@ -22,13 +22,15 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Models
 
         public Customer? Customer { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select a customer")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select a customer")]
         public int? CurrentCustomerId { get; set; }
 
 
         public List<Product>? Products { get; set; }
 
+        [Required(ErrorMessage = "Please select a product")]
+        [Range(0, int.MaxValue, ErrorMessage = "Please select a product")]
         public int? CurrentProductId { get; set; }
 
 
@@ -36,6 +38,39 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Models
 
         public string? SortOrder { get; set; }
 
+
+        public RegistrationViewModel () { }
+
+        public RegistrationViewModel(string sortBy, string sortOrder, int? currentCustomerId, List<Product> products, Customer? customer)
+        {
+            SortBy = sortBy;
+            SortOrder = sortOrder;
+            CurrentCustomerId = currentCustomerId;
+            Products = products;
+            Customer = GetSortedRegistrations(customer);
+        }
+
+        public Customer GetSortedRegistrations (Customer? customer)
+        {
+            if (customer == null) return new Customer();
+
+            if (customer.Registrations == null) return customer;
+
+
+            customer.Registrations = SortBy switch
+            {
+                "Product" => SortOrder switch
+                {
+                    "asc" => customer.Registrations.OrderBy(m => m.Product?.Name).ToList(),
+                    "desc" => customer.Registrations.OrderByDescending(m => m.Product?.Name).ToList(),
+                    _ => customer.Registrations.OrderBy(m => m.ProductId).ToList(),
+                },
+                _ => customer.Registrations.OrderBy(m => m.ProductId).ToList(),
+            };
+
+            return customer;
+
+        }
 
         // If the sortBy matches our current SortBy, return the sort order, otherwise return "";
         public string GetCurrentSortOrder(string sortBy) => sortBy == SortBy ? SortOrder ?? "" : "";

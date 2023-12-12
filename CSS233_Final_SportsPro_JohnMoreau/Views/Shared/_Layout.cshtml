@@ -58,6 +58,12 @@
                     @TempData["SuccessMessage"]
                 </div>
             }
+            @if (TempData.Keys.Contains("ErrorMessage"))
+            {
+                <div class="mt-2 mb-2 alert alert-danger text-center">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
             @RenderBody()
         </main>
     </div>
