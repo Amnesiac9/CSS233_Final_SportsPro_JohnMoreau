@@ -25,7 +25,8 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Models
         public string Email { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Please enter a Phone Number")]
-        [RegularExpression(@"^\d{3}-\d{3}-\d{4}$", ErrorMessage = "Please enter a valid 10-digit phone number in format 555-555-5555.")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^\(\d{3}\)\s\d{3}-\d{4}$", ErrorMessage = "Please enter a valid phone number in the format (999) 999-9999")]
         public string Phone { get; set; } = string.Empty;
 
         public string? DateAdded { get; set; } = string.Empty;
