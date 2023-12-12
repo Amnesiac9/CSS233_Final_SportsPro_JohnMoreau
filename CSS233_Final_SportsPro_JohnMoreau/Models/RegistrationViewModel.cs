@@ -39,6 +39,8 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Models
         public string? SortOrder { get; set; }
 
 
+        //public string? Slug => Customer?.FirstName?.Replace(' ', '-').ToLower() + '-' + Customer?.LastName?.Replace(' ', '-').ToLower();
+
         public RegistrationViewModel () { }
 
         public RegistrationViewModel(string sortBy, string sortOrder, int? currentCustomerId, List<Product> products, Customer? customer)

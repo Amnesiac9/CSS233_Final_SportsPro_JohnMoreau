@@ -1,11 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿
 using Microsoft.EntityFrameworkCore.Query;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Globalization;
-using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
 
 /*
 * John Moreau

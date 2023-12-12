@@ -7,7 +7,7 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
     {
         private SportsContext Context { get; set; }
         public ValidationController(SportsContext ctx) => Context = ctx;
-        public JsonResult CheckEmail(string email)
+        public JsonResult CheckEmail(string email) // Not sure how to pull id of the customer as well
         {
             string msg = EmailExists(Context, email);
             if (string.IsNullOrEmpty(msg))
@@ -23,7 +23,7 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
             string msg = "";
             if (!string.IsNullOrEmpty(email))
             {
-                var customer = ctx.Customers.FirstOrDefault(c => c.Email.ToLower() == email.ToLower());
+                var customer = ctx.Customers.FirstOrDefault(c => c.Email.ToLower() == email.ToLower()); // && c.Id != id // I want to add ID but not sure how to pull it from the view
                 if (customer != null)
                     msg = $"Email address {email} already in use.";
             }

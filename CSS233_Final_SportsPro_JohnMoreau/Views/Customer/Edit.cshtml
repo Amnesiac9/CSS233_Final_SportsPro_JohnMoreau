@@ -134,4 +134,7 @@
            class="btn btn-primary">Cancel</a>
     </div>
 </form>
-<partial name="_ValidationScriptsPartial" />
+@if (ViewBag.Action == "Add") @*Temproary fix... To allow you to edit customers without changing their email address.*@
+{
+    <partial name="_ValidationScriptsPartial" />
+}

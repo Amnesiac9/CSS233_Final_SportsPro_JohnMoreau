@@ -20,7 +20,7 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
             return View(registration);
         }
 
-        //[Route("Registration/{id?}")]
+        [Route("Registration/Products/{Slug?}")]
         public IActionResult GetItems(RegistrationViewModel registration)
         {
             if (!ModelState.IsValid)
@@ -36,7 +36,7 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
             // Create a new registrationview with the customer's registrations sorted by the current sort order
             registration = new RegistrationViewModel(registration.SortBy ?? "", registration.SortOrder ?? "", registration.CurrentCustomerId, products, customer);
 
-            return View(registration);
+            return View("GetItems", registration);
 
         }
 
@@ -58,9 +58,11 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
             if (product != null && customer != null && customer.Registrations != null)
             {
 
-                var registration = new Registration(customer, product);
-                if (!customer.Registrations.Contains(registration))
+                var registration = Context.Registrations.FirstOrDefault(i => i.CustomerId == model.CurrentCustomerId && i.ProductId == model.CurrentProductId);
+                
+                if (registration == null)
                 {
+                    registration = new Registration(customer, product);
                     Context.Add(registration);
                     Context.SaveChanges();
                     TempData["SuccessMessage"] = product?.Name + " has been added to registrations.";
@@ -84,7 +86,7 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
         {
 
             var product = Context.Products.Find(model.CurrentProductId);
-            var registration = Context.Registrations.FirstOrDefault(i => i.CustomerId == model.CurrentCustomerId && i.ProductId == model.CurrentProductId); ;
+            var registration = Context.Registrations.FirstOrDefault(i => i.CustomerId == model.CurrentCustomerId && i.ProductId == model.CurrentProductId);
 
             if (registration != null)
             {
