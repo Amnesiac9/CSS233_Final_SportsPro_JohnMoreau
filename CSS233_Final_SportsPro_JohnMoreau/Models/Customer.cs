@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.InteropServices;
@@ -54,7 +55,7 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Models
         [DataType(DataType.EmailAddress)]
         [StringLength(51, MinimumLength = 1, ErrorMessage = "Please enter an Email between 1-51 characters")]
         [RegularExpression(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", ErrorMessage = "Please enter a valid email address")]
-
+        [Remote("CheckEmail", "Validation")]
         public string? Email { get; set; } = string.Empty;
 
         [DataType(DataType.PhoneNumber)]

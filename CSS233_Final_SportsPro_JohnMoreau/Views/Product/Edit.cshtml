@@ -6,7 +6,8 @@
 *@
 @model Product
 @{
-    string isInvalid(string str) => ViewData.ModelState.GetFieldValidationState(str) == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid ? "is-invalid" : ""; // Source: https://stackoverflow.com/questions/39028177/how-to-check-in-razor-view-if-field-is-valid
+    @*Tried this for validation, worked well, but the book showed an easier way.*@
+    //string isInvalid(string str) => ViewData.ModelState.GetFieldValidationState(str) == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid ? "is-invalid" : ""; // Source: https://stackoverflow.com/questions/39028177/how-to-check-in-razor-view-if-field-is-valid
     string title = ViewBag.Action + " Product";
     ViewData["Title"] = title;
 }
@@ -18,10 +19,11 @@
             <label asp-for="Code" class="form-label col-2">Code</label>
         </div>
         <div class="col-5">
-            <input asp-for="Code" class="form-control col-5 @isInvalid("Code")">
+            <input asp-for="Code" class="form-control col-5 ">@*@isInvalid("Code")*@
         </div>
-        <div class="text-danger col-5">
-            @Html.ValidationMessage("Code")
+        <div class="col-5">
+            @*@Html.ValidationMessage("Code")*@ @*Tried this, worked well, but the book showed this newer way.*@
+            <span asp-validation-for="Code" class="text-danger"></span>
         </div>
     </div>
 
@@ -30,9 +32,11 @@
             <label asp-for="Name" class="form-label col-2">Name</label>
         </div>
         <div class="col-5">
-            <input asp-for="Name" class="form-control col-5 @isInvalid("Name")">
+            <input asp-for="Name" class="form-control col-5">
         </div>
-        <div class="text-danger col-5">@Html.ValidationMessage("Name")</div>
+        <div class="col-5">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
     </div>
 
     <div class="row mb-3">
@@ -40,9 +44,11 @@
             <label asp-for="Price" class="form-label col-2">Price</label>
         </div>
         <div class="col-5">
-            <input asp-for="Price" class="form-control col-5 @isInvalid("Price")">
+            <input asp-for="Price" class="form-control col-5 ">
         </div>
-        <div class="text-danger col-5">@Html.ValidationMessage("Price")</div>
+        <div class="col-5">
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
     </div>
 
     <div class="row mb-3">
@@ -50,9 +56,11 @@
             <label asp-for="ReleaseDate" class="form-label">Release Date</label>
         </div>
         <div class="col-5">
-            <input asp-for="ReleaseDate" class="form-control @isInvalid("ReleaseDate")" step="any" asp-format="{0:yyyy-MM-ddTHH:mm:ss}"> @*asp-format="{0:yyyy-MM-ddTHH:mm:ss}" SOURCE: https: //www.mikesdotnetting.com/article/352/working-with-dates-and-times-in-razor-pages-forms#:~:text =Alternatively%2C%20you%20can%20use%20the%20asp-format%20attribute%20on,itself%3A%20DateTime%3A%20%3Cinput%20class%3D%22form-control%22%20asp-for%3D%22DateTime%22%20asp-format%3D%22%20%7B0%3Ayyyy-MM-ddTHH%3Amm%7D%22%20%2F%3E *@
+            <input asp-for="ReleaseDate" class="form-control " step="any" asp-format="{0:yyyy-MM-ddTHH:mm:ss}"> @* asp-format="{0:yyyy-MM-ddTHH:mm:ss}" SOURCE: https: //www.mikesdotnetting.com/article/352/working-with-dates-and-times-in-razor-pages-forms#:~:text =Alternatively%2C%20you%20can%20use%20the%20asp-format%20attribute%20on,itself%3A%20DateTime%3A%20%3Cinput%20class%3D%22form-control%22%20asp-for%3D%22DateTime%22%20asp-format%3D%22%20%7B0%3Ayyyy-MM-ddTHH%3Amm%7D%22%20%2F%3E *@
         </div>
-        <div class="text-danger col-5">@Html.ValidationMessage("ReleaseDate")</div>
+        <div class="col-5">
+            <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+        </div>
     </div>
 
     <input type="hidden" asp-for="Id" />
@@ -65,3 +73,10 @@
            class="btn btn-primary">Cancel</a>
     </div>
 </form>
+<partial name="_ValidationScriptsPartial" />
+@* Tried this first, worked well, but realized this was much less code ^
+    @section validationScripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}*@

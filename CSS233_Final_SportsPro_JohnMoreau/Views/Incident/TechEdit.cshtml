@@ -6,7 +6,7 @@
 *@
 @model Incident
 @{
-    string isInvalid(string str) => ViewData.ModelState.GetFieldValidationState(str) == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid ? "is-invalid" : ""; // Source: https://stackoverflow.com/questions/39028177/how-to-check-in-razor-view-if-field-is-valid
+    //string isInvalid(string str) => ViewData.ModelState.GetFieldValidationState(str) == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid ? "is-invalid" : ""; // Source: https://stackoverflow.com/questions/39028177/how-to-check-in-razor-view-if-field-is-valid
     ViewData["Title"] = ViewBag.Action + " TechIncMgr";
 }
 <h2>@(ViewBag.Action + " Incident")</h2>
@@ -21,8 +21,8 @@
             <input type="hidden" asp-for="TechnicianId" />
             @Model.Technician?.Name
         </div>
-        <div class="col-5 text-danger">
-            @Html.ValidationMessage("TechnicianId")
+        <div class="col-5">
+            <span asp-validation-for="TechnicianId" class="text-danger"></span>
         </div>
     </div>
     <div class="row mb-3">
@@ -33,8 +33,8 @@
             <input type="hidden" asp-for="CustomerId" />
             @Model.Customer?.Name
         </div>
-        <div class="col-5 text-danger">
-            @Html.ValidationMessage("CustomerId")
+        <div class="col-5">
+            <span asp-validation-for="CustomerId" class="text-danger"></span>
         </div>
     </div>
 
@@ -46,8 +46,8 @@
             <input type="hidden" asp-for="ProductId" />
             @Model.Product?.Name
         </div>
-        <div class="col-5 text-danger">
-            @Html.ValidationMessage("ProductId")
+        <div class="col-5">
+            <span asp-validation-for="ProductId" class="text-danger"></span>
         </div>
     </div>
 
@@ -59,8 +59,8 @@
             <input type="hidden" asp-for="Title" />
             @Model.Title
         </div>
-        <div class="col-5 text-danger">
-            @Html.ValidationMessage("Title")
+        <div class="col-5">
+            <span asp-validation-for="Title" class="text-danger"></span>
         </div>
     </div>
 
@@ -72,8 +72,8 @@
             <input type="hidden" asp-for="DateOpened" />
             @Model.DateOpened 
         </div>
-        <div class="col-5 text-danger">
-            @Html.ValidationMessage("DateOpened")
+        <div class="col-5">
+            <span asp-validation-for="DateOpened" class="text-danger"></span>
         </div>
     </div>
 
@@ -82,10 +82,10 @@
             <label asp-for="Description" class="form-label">Description</label>
         </div>
         <div class="col-5 mt-1">
-            <textarea asp-for="Description" class="form-control @isInvalid("Description")" type="text"></textarea>
+            <textarea asp-for="Description" class="form-control" type="text"></textarea>
         </div>
-        <div class="col-5 text-danger">
-            @Html.ValidationMessage("Description")
+        <div class="col-5">
+            <span asp-validation-for="Description" class="text-danger"></span>
         </div>
     </div>
     <div class="row mb-3">
@@ -104,7 +104,8 @@
     <div class="mb-3">
         <button type="submit" class="btn btn-primary">Save</button>
         <a asp-controller="Incident" asp-action="TechIncident" method="post" 
-           class="btn btn-primary">Cancel</a> @*asp-route-id="@Model.TechnicianId"*@
+           class="btn btn-primary">Cancel</a>
     </div>
 
 </form>
+<partial name="_ValidationScriptsPartial" />

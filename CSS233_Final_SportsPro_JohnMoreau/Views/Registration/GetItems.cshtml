@@ -3,6 +3,7 @@
 * CSS233
 * 12/10/2023
 *@
+
 @model RegistrationViewModel
 @{
     ViewData["Title"] = "Registrations";
@@ -57,7 +58,7 @@ else
                 <select asp-for="CurrentProductId" asp-items="@(new SelectList(Model.Products, "Id", "Name"))" class="form-select">
                     <option value=-1>Select a Product...</option>
                 </select>
-                <div class="text-danger">@Html.ValidationMessage("CurrentProductId")</div>
+                <span asp-validation-for="CurrentProductId" class="text-danger"></span>
             </div>
         </div>
         <div class="mb-3">
@@ -71,3 +72,4 @@ else
     </form>
 
 }
+<partial name="_ValidationScriptsPartial" />

@@ -18,17 +18,20 @@
     <form asp-controller="Incident" asp-action="Edit" method="post">
         @*<div asp-validation-summary="All" class="text-danger"></div>*@
 
+
+
         <div class="row mb-3">
             <div class="col-2 mt-1">
                 <label asp-for="@Model.CurrentIncident.CustomerId" class="form-label">Customer</label>
             </div>
             <div class="col-5">
-                <select asp-for="@Model.CurrentIncident.CustomerId" asp-items="@(new SelectList(@Model.Customers, "Id", "Name"))" class="form-select @isInvalid("CurrentIncident.CustomerId")">
+                <select asp-for="@Model.CurrentIncident.CustomerId" asp-items="@(new SelectList(@Model.Customers, "Id", "Name"))" class="form-select ">
+                    @*@isInvalid("CurrentIncident.CustomerId")*@
                     <option value=0>Select a customer...</option>
                 </select>
             </div>
-            <div class="col-5 text-danger">
-                @Html.ValidationMessage("CurrentIncident.CustomerId")
+            <div class="col-5">
+                <span asp-validation-for="@Model.CurrentIncident.CustomerId" class="text-danger"></span>
             </div>
         </div>
 
@@ -41,8 +44,8 @@
                     <option value=0>Select a Product...</option>
                 </select>
             </div>
-            <div class="col-5 text-danger">
-                @Html.ValidationMessage("CurrentIncident.ProductId")
+            <div class="col-5">
+                <span asp-validation-for="@Model.CurrentIncident.ProductId" class="text-danger"></span>
             </div>
         </div>
 
@@ -51,10 +54,10 @@
                 <label asp-for="@Model.CurrentIncident.Title" class="form-label">Title</label>
             </div>
             <div class="col-5">
-                <input asp-for="@Model.CurrentIncident.Title" class="form-control @isInvalid("CurrentIncident.Title")">
+                <input asp-for="@Model.CurrentIncident.Title" class="form-control">
             </div>
-            <div class="col-5 text-danger">
-                @Html.ValidationMessage("CurrentIncident.Title")
+            <div class="col-5">
+                <span asp-validation-for="@Model.CurrentIncident.Title" class="text-danger"></span>
             </div>
         </div>
 
@@ -63,10 +66,10 @@
                 <label asp-for="@Model.CurrentIncident.Description" class="form-label">Description</label>
             </div>
             <div class="col-5">
-                <textarea asp-for="@Model.CurrentIncident.Description" class="form-control @isInvalid("CurrentIncident.Description")" type="text"></textarea>
+                <textarea asp-for="@Model.CurrentIncident.Description" class="form-control" type="text"></textarea>
             </div>
-            <div class="col-5 text-danger">
-                @Html.ValidationMessage("CurrentIncident.Description")
+            <div class="col-5">
+                <span asp-validation-for="@Model.CurrentIncident.Description" class="text-danger"></span>
             </div>
         </div>
 
@@ -75,12 +78,12 @@
                 <label asp-for="@Model.CurrentIncident.TechnicianId" class="form-label">Technician</label>
             </div>
             <div class="col-5">
-                <select asp-for="@Model.CurrentIncident.TechnicianId" asp-items="@(new SelectList(@Model.Technicians, "Id", "Name"))" class="form-select @isInvalid("CurrentIncident.TechnicianId")">
+                <select asp-for="@Model.CurrentIncident.TechnicianId" asp-items="@(new SelectList(@Model.Technicians, "Id", "Name"))" class="form-select">
                     <option value=0>Choose a technician...</option>
                 </select>
             </div>
-            <div class="col-5 text-danger">
-                @Html.ValidationMessage("CurrentIncident.TechnicianId")
+            <div class="col-5">
+                <span asp-validation-for="@Model.CurrentIncident.TechnicianId" class="text-danger"></span>
             </div>
         </div>
 
@@ -89,31 +92,34 @@
                 <label asp-for="@Model.CurrentIncident.DateOpened" class="form-label">Date Opened</label>
             </div>
             <div class="col-5">
-                <input asp-for="@Model.CurrentIncident.DateOpened" class="form-control @isInvalid("CurrentIncident.DateOpened")" value="@(@Model.CurrentIncident?.DateOpened == string.Empty ? DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt") : @Model.CurrentIncident?.DateOpened)" disabled> @* disabled doesn't submit any value...*@
-            </div>
-            <div class="col-5 text-danger">
-                @Html.ValidationMessage("CurrentIncident.DateOpened")
-            </div>
-        </div>
-        @*
-            Not sure why the warnings here for Dereference of possibly null reference.
-            I check if the reference is null at the top level, so if we get here, it's not null.
-            Possibly a bug with Visual Studio.
-        *@
-        <div class="row mb-3">
-            <div class="col-2 mt-1">
-                <label asp-for="@Model.CurrentIncident.DateClosed" class="form-label">Date Closed</label>
+                <input asp-for="@Model.CurrentIncident.DateOpened" class="form-control" value="@(@Model.CurrentIncident?.DateOpened == string.Empty ? DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt") : @Model.CurrentIncident?.DateOpened)" disabled> @* disabled doesn't submit any value...*@
             </div>
             <div class="col-5">
-                <input asp-for="@Model.CurrentIncident.DateClosed" class="form-control" step="any" type="datetime-local" disabled="@(ViewBag.Action == "Add")">
+                <span asp-validation-for="@Model.CurrentIncident.DateOpened" class="text-danger"></span>
             </div>
         </div>
+        
+        @*
+            Not sure why the warnings here for Dereference of possibly null reference if I don't do this second if check.
+            I check if the reference is null at the top level, so if we get here, it's not null.
+            Possibly a bug with visual studio, since if I move these up closer to the IF check, the warning goes away.
+        *@
+        @if (Model.CurrentIncident != null)
+        {
 
-        <input type="hidden" asp-for="@Model.CurrentIncident.DateOpened" value="@(@Model.CurrentIncident?.DateOpened == string.Empty ? DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt") : @Model.CurrentIncident?.DateOpened)" /> @*To allow date opened to send in the POST request when updating.*@
+            <div class="row mb-3">
+                <div class="col-2 mt-1">
+                    <label asp-for="@Model.CurrentIncident.DateClosed" class="form-label">Date Closed</label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="@Model.CurrentIncident.DateClosed" class="form-control" step="any" type="datetime-local" disabled="@(ViewBag.Action == "Add")">
+                </div>
+            </div>
 
-        <input type="hidden" asp-for="@Model.CurrentIncident.Id" />
+            <input type="hidden" asp-for="@Model.CurrentIncident.Id" />
 
-
+            <input type="hidden" asp-for="@Model.CurrentIncident.DateOpened" value="@(@Model.CurrentIncident?.DateOpened == string.Empty ? DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt") : @Model.CurrentIncident?.DateOpened)" /> @*To allow date opened to send in the POST request when updating.*@
+        }
 
         <div class="mb-3">
             <button type="submit" class="btn btn-primary">Save</button>
@@ -129,3 +135,4 @@ else
         No Incident found. Please contact support.
     </div>
 }
+<partial name="_ValidationScriptsPartial" />

@@ -6,7 +6,7 @@
 *@
 @model Technician
 @{
-    string isInvalid(string str) => ViewData.ModelState.GetFieldValidationState(str) == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid ? "is-invalid" : ""; // Source: https://stackoverflow.com/questions/39028177/how-to-check-in-razor-view-if-field-is-valid
+    //string isInvalid(string str) => ViewData.ModelState.GetFieldValidationState(str) == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid ? "is-invalid" : ""; // Source: https://stackoverflow.com/questions/39028177/how-to-check-in-razor-view-if-field-is-valid
     string title = ViewBag.Action + " Technician";
     ViewData["Title"] = title;
 }
@@ -19,10 +19,10 @@
             <label asp-for="Name" class="form-label">Name</label>
         </div>
         <div class="col-5">
-            <input asp-for="Name" class="form-control @isInvalid("Name")">
+            <input asp-for="Name" class="form-control">
         </div>
-        <div class="text-danger col-5">
-            @Html.ValidationMessage("Name")
+        <div class="col-5">
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
     </div>
 
@@ -31,10 +31,10 @@
             <label asp-for="Email" class="form-label">Email</label>
         </div>
         <div class="col-5">
-            <input asp-for="Email" class="form-control @isInvalid("Email")" type="email">
+            <input asp-for="Email" class="form-control" type="email">
         </div>
-        <div class="text-danger col-5">
-            @Html.ValidationMessage("Email")
+        <div class="col-5">
+            <span asp-validation-for="Email" class="text-danger"></span>
         </div>
     </div>
 
@@ -43,10 +43,10 @@
             <label asp-for="Phone" class="form-label">Phone</label>
         </div>
         <div class="col-5">
-            <input asp-for="Phone" class="form-control @isInvalid("Phone")" type="tel">
+            <input asp-for="Phone" class="form-control" id="phone-input" onfocus="updatePhoneNumber('phone-input')">
         </div>
-        <div class="text-danger col-5">
-            @Html.ValidationMessage("Phone")
+        <div class="col-5">
+            <span asp-validation-for="Phone" class="text-danger"></span>
         </div>
     </div>
 
@@ -55,8 +55,9 @@
     <input type="hidden" asp-for="DateAdded" value="@(Model.DateAdded == string.Empty ? DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt") : Model.DateAdded)  />
 
     <div class="mb-3">
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" onclick="updatePhoneNumber('phone-input')" class="btn btn-primary">Save</button>
         <a asp-controller="Technician" asp-action="List" asp-route-id="@Model.Id"
            class="btn btn-primary">Cancel</a>
     </div>
 </form>
+<partial name="_ValidationScriptsPartial" />

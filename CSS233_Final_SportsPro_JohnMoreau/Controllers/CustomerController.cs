@@ -79,6 +79,17 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
         [HttpPost]
         public IActionResult Edit(Customer customer)
         {
+
+            // Check if email is already in use
+            if (TempData["okEmail"] == null) // If the client side didn't already catch it.
+            {
+                string msg = ValidationController.EmailExists(Context, customer.Email ?? "");
+                if (!String.IsNullOrEmpty(msg))
+                {
+                    ModelState.AddModelError(nameof(Customer.Email), msg);
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 customer.Email = customer.Email?.ToLower();

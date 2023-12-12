@@ -16,9 +16,7 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
         [Route("Registration")]
         public IActionResult GetCustomer()
         {
-            var registration = new RegistrationViewModel();
-            registration.Customers = Context.Customers.ToList() ;
-
+            var registration = new RegistrationViewModel { Customers = Context.Customers.ToList() };
             return View(registration);
         }
 
@@ -27,23 +25,16 @@ namespace CSS233_Final_SportsPro_JohnMoreau.Controllers
         {
             if (!ModelState.IsValid)
             {
-                registration = new RegistrationViewModel();
-                registration.Customers = Context.Customers.ToList();
-
+                registration = new RegistrationViewModel { Customers = Context.Customers.ToList() };
                 return View("GetCustomer", registration);
             }
-            // Get the items and registrations for this customer
+
+            // Get the items and registrations for this customer, include registrations
             var customer = Context.Customers.Include(c => c.Registrations).FirstOrDefault(i => i.Id == registration.CurrentCustomerId);
             var products = Context.Products.ToList();
 
+            // Create a new registrationview with the customer's registrations sorted by the current sort order
             registration = new RegistrationViewModel(registration.SortBy ?? "", registration.SortOrder ?? "", registration.CurrentCustomerId, products, customer);
-
-            //registration = new RegistrationViewModel
-            //{
-            //    CurrentCustomerId = registration.CurrentCustomerId,
-            //    Customer = customer,
-            //    Products = products,
-            //};
 
             return View(registration);
 

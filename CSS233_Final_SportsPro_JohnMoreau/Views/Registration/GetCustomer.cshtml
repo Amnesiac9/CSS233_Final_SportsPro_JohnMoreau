@@ -16,7 +16,7 @@
             <select asp-for="CurrentCustomerId" asp-items="@(new SelectList(Model.Customers, "Id", "Name"))" class="form-select">
                 <option value=-2>Select a customer...</option>
             </select>
-            <div class="text-danger">@Html.ValidationMessage("CurrentCustomerId")</div>
+            <span asp-validation-for="CurrentCustomerId" class="text-danger"></span>
         </div>
     </div>
     <div class="mb-3">
@@ -28,4 +28,4 @@
     <input type="hidden" asp-for="CurrentProductId" value="0" />
 
 </form>
-
+<partial name="_ValidationScriptsPartial" />
